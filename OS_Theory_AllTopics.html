@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Theory Notes — All Topics</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:#fafaf8;color:#1a1a2e;font-size:15px;line-height:1.85}
+.hero{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:#fff;padding:50px 30px 40px;text-align:center}
+.hero h1{font-size:2.4em;margin-bottom:8px}.hero h1 span{color:#e94560}
+.hero p{color:#a8b8d8;margin-bottom:16px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:5px 14px;font-size:.8em;color:#d0daf0}
+.nav{background:#1a1a2e;position:sticky;top:0;z-index:200;display:flex;overflow-x:auto;gap:0;scrollbar-width:none;border-bottom:3px solid #e94560}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:#8899cc;text-decoration:none;padding:12px 15px;font-size:.77em;white-space:nowrap;font-family:'Courier New',monospace;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
+.nav a:hover,.nav a.active{color:#e94560;border-bottom-color:#e94560}
+.page{max-width:980px;margin:0 auto;padding:28px 22px}
+.unit{background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:24px 30px;border-radius:12px;margin:38px 0 20px;border-left:6px solid #e94560}
+.unit .ppt{color:#e94560;font-family:'Courier New',monospace;font-size:.76em;margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+.unit h2{font-size:1.6em;margin-bottom:3px}.unit p{color:#a8b8d8;font-size:.88em}
+.sec{background:#fff;border:1px solid #e8e4dc;border-radius:11px;margin:14px 0;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.05)}
+.sec-hd{background:linear-gradient(90deg,#f0f4ff,#fafafa);border-bottom:1px solid #e8e4dc;padding:14px 20px;display:flex;align-items:center;gap:11px;cursor:pointer;user-select:none}
+.sec-hd:hover{background:linear-gradient(90deg,#e8eeff,#f5f5f5)}
+.sno{background:#1a1a2e;color:#fff;border-radius:7px;padding:3px 11px;font-size:.75em;font-weight:700;font-family:'Courier New',monospace;flex-shrink:0}
+.sec-hd h3{font-size:1.08em;color:#1a1a2e;flex:1}.sec-hd .arr{color:#888;font-size:.85em;transition:transform .3s}
+.sec-hd.op .arr{transform:rotate(180deg)}
+.sec-bd{padding:20px 24px;display:none}
+.sec-bd.op{display:block}
+.def{background:#f0f4ff;border:1.5px solid #c5d0f0;border-left:5px solid #3b5bdb;border-radius:8px;padding:13px 18px;margin:11px 0}
+.def .lbl{color:#3b5bdb;font-size:.73em;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px;font-family:'Courier New',monospace}
+.note{background:#fffbf0;border:1.5px solid #f0d080;border-left:5px solid #f59f00;border-radius:7px;padding:11px 17px;margin:11px 0;font-size:.92em}
+.note::before{content:'💡 '}
+.key{background:#f0fff4;border:1.5px solid #a3e6b8;border-left:5px solid #2f9e44;border-radius:7px;padding:11px 17px;margin:11px 0;font-size:.92em}
+.key::before{content:'✅ ';color:#2f9e44;font-weight:700}
+.imp{background:#fff0f0;border:1.5px solid #ffc0c0;border-left:5px solid #e03131;border-radius:7px;padding:11px 17px;margin:11px 0;font-size:.92em}
+.imp::before{content:'⚠️ Important: ';color:#e03131;font-weight:700}
+.trick{background:#fff0f6;border:1.5px solid #f0b0c8;border-left:5px solid #e64980;border-radius:7px;padding:11px 17px;margin:10px 0;font-size:.9em}
+.trick::before{content:'🧠 Remember: ';color:#e64980;font-weight:700}
+.tw{overflow-x:auto;margin:13px 0}
+table{width:100%;border-collapse:collapse;font-size:.86em}
+thead th{background:#1a1a2e;color:#fff;padding:9px 13px;text-align:left;font-family:'Courier New',monospace;font-size:.83em}
+tbody td{padding:8px 13px;border:1px solid #e4e0d8;color:#3a3a5a;vertical-align:top}
+tbody tr:nth-child(even) td{background:#fafaf7}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:11px 0}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:11px 0}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px;margin:11px 0}
+.card{background:#f8f6f0;border:1.5px solid #e0d8c8;border-radius:8px;padding:13px}
+.card .ct{font-weight:700;font-size:.86em;color:#1a1a2e;margin-bottom:6px;padding-bottom:5px;border-bottom:2px solid #e0d8c8}
+.card p,.card li{font-size:.86em;color:#3a3a5a;line-height:1.65}
+.card ul{padding-left:15px}
+.cb{border-top:3px solid #3b5bdb}.co{border-top:3px solid #e67700}.cg{border-top:3px solid #2f9e44}
+.cr{border-top:3px solid #e03131}.cp{border-top:3px solid #7048e8}
+.tlist{list-style:none;padding:0;margin:10px 0}
+.tlist li{background:#f8f6f0;border:1px solid #e4e0d8;border-radius:7px;padding:9px 14px;margin:5px 0;font-size:.91em;display:flex;gap:9px;align-items:flex-start}
+.tlist .n{background:#1a1a2e;color:#fff;border-radius:50%;min-width:23px;height:23px;display:flex;align-items:center;justify-content:center;font-size:.73em;font-weight:700;flex-shrink:0;margin-top:2px}
+.tlist .nb{background:#3b5bdb}.tlist .no{background:#e67700}.tlist .ng{background:#2f9e44}
+.tlist .nr{background:#e03131}.tlist .np{background:#7048e8}
+.formula{background:#1a1a2e;color:#a0ffcc;border-radius:9px;padding:14px 18px;margin:13px 0;font-family:'Courier New',monospace;font-size:.88em;line-height:1.8;white-space:pre}
+.formula .ft{color:#f7c948;font-weight:700;margin-bottom:5px;font-size:.84em;text-transform:uppercase;letter-spacing:1px;display:block}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:11px 0;border:1.5px solid #e0d8c8;border-radius:9px;overflow:hidden}
+.vs-l{background:#f0fff4;padding:14px 17px;border-right:1px solid #e0d8c8}
+.vs-r{background:#fff0f0;padding:14px 17px}
+.vs .vt{font-weight:700;font-size:.87em;padding-bottom:6px;margin-bottom:7px;border-bottom:2px dashed}
+.vs-l .vt{color:#2f9e44;border-color:#a3e6b8}.vs-r .vt{color:#e03131;border-color:#ffc0c0}
+.vs ul{padding-left:14px;font-size:.86em;color:#3a3a5a}.vs li{margin:3px 0}
+hr.div{height:1px;border:none;background:linear-gradient(90deg,transparent,#d0c8b8,transparent);margin:16px 0}
+.hl{color:#e03131;font-weight:700}.hl2{color:#2f9e44;font-weight:700}.hl3{color:#3b5bdb;font-weight:700}
+footer{background:#1a1a2e;color:#8899cc;text-align:center;padding:28px;margin-top:38px;font-size:.87em}
+footer h3{color:#e94560;margin-bottom:7px}
+@media(max-width:640px){.g2,.g3,.g4,.vs{grid-template-columns:1fr}.page{padding:16px 13px}.hero h1{font-size:1.7em}}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>OS Theory <span>Notes</span></h1>
+<p>Every Topic & Subtopic from All 8 PPTs — Plain English — Click sections to expand</p>
+<div class="badges">
+<span class="badge">PPT 1.3.1 Deadlock</span><span class="badge">PPT 1.3.2 DL Handling</span>
+<span class="badge">PPT 1.3.3 Banker's</span><span class="badge">L-2.1.1 Memory</span>
+<span class="badge">L-2.1.2 Allocation</span><span class="badge">L-2.1.4 Paging</span>
+<span class="badge">L-2.1.5 Virtual Mem</span><span class="badge">L-2.2.1 Disk</span>
+</div>
+</div>
+<nav class="nav">
+<a href="#u1">Deadlock</a><a href="#u2">DL Handling</a><a href="#u3">Banker's</a>
+<a href="#u4">Memory Mgmt</a><a href="#u5">Allocation</a><a href="#u6">Paging</a>
+<a href="#u7">Virtual Mem</a><a href="#u8">Disk Mgmt</a>
+</nav>
+<div class="page">
+
+<!-- UNIT 1 -->
+<div class="unit" id="u1"><div class="ppt">PPT 1.3.1</div><h2>Unit 1 — Deadlock</h2><p>Definition · 4 Conditions · System Model · RAG · Deadlock Formula</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">1.1</span><h3>What is Deadlock?</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<p>Deadlock is a situation where a group of processes are all stuck waiting forever — each one waiting for a resource held by another process in the same group. No process can ever proceed on its own.</p>
+<div class="def"><div class="lbl">Official Definition</div><strong>Deadlock</strong> = A situation where two or more processes are <em>permanently blocked</em>, each waiting for a resource held by another — so no process can proceed.</div>
+<div class="note">Real-life analogy: Two cars on a one-lane bridge facing each other. Neither moves forward, neither reverses. Both wait forever.</div>
+<div class="key">Deadlock is a permanent block. The OS does NOT recover automatically — it must intervene.</div>
+<div class="vs"><div class="vs-l"><div class="vt">Deadlock</div><ul><li>All involved processes are BLOCKED permanently</li><li>None can make any progress at all</li><li>Cannot resolve by itself</li></ul></div><div class="vs-r"><div class="vt">Starvation</div><ul><li>One process keeps being skipped over</li><li>Other processes ARE running normally</li><li>May eventually resolve itself</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">1.2</span><h3>4 Necessary Conditions (Coffman Conditions)</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<p>ALL four conditions must be true at the SAME TIME for deadlock to occur. Remove even ONE and deadlock is impossible. Identified by E.G. Coffman in 1971.</p>
+<ul class="tlist">
+<li><span class="n nb">1</span><div><strong>Mutual Exclusion</strong> — At least one resource can only be used by ONE process at a time. It is non-shareable. Example: a printer, a file open for writing.</div></li>
+<li><span class="n no">2</span><div><strong>Hold and Wait</strong> — A process is currently HOLDING at least one resource AND WAITING to acquire more resources that are currently held by other processes.</div></li>
+<li><span class="n nr">3</span><div><strong>No Preemption</strong> — Resources cannot be forcefully taken away from a process. A process releases its resources only voluntarily when it is done using them.</div></li>
+<li><span class="n np">4</span><div><strong>Circular Wait</strong> — A circular chain of processes exists: P1 waits for P2's resource, P2 waits for P3's resource, ..., Pn waits for P1's resource. Forms a closed loop.</div></li>
+</ul>
+<div class="trick"><strong>M-H-N-C</strong> — Mutual exclusion, Hold &amp; wait, No preemption, Circular wait. All four must hold simultaneously for deadlock.</div>
+<div class="imp">Deadlock PREVENTION works by ensuring at least one of these conditions can NEVER be true in the system design.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">1.3</span><h3>System Model for Deadlock</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>A system model formally describes how processes and resources interact. Used to analyze and detect deadlock.</p>
+<div class="def"><div class="lbl">Components</div><ul style="padding-left:17px;line-height:2"><li><strong>Processes</strong> — P1, P2, ..., Pn (entities that compete for resources)</li><li><strong>Resource Types</strong> — R1, R2, ..., Rm (CPU, memory, printers, locks, etc.)</li><li><strong>Instances</strong> — Each resource type Ri has Wi instances (e.g., 3 printers = 3 instances)</li></ul></div>
+<h4 style="margin:11px 0 8px">A process uses a resource in 3 steps:</h4>
+<div class="g3">
+<div class="card cb"><div class="ct">1. Request</div><p>Process asks OS for the resource. If unavailable, process enters waiting state.</p></div>
+<div class="card cg"><div class="ct">2. Use</div><p>Process actively uses the resource to perform its work.</p></div>
+<div class="card co"><div class="ct">3. Release</div><p>Process voluntarily frees the resource so others can use it.</p></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">1.4</span><h3>Resource Allocation Graph (RAG)</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p>A directed graph that visually shows the current state of resource allocation. It helps detect deadlocks without running complex algorithms.</p></div>
+<div class="g2">
+<div class="card cb"><div class="ct">Graph Components (Nodes)</div><ul><li>Circle (○) = Process node</li><li>Rectangle (□) = Resource type node</li><li>Dots inside rectangle = individual instances</li></ul></div>
+<div class="card co"><div class="ct">Graph Components (Edges)</div><ul><li><strong>P → R</strong> = Request edge — process is WAITING for this resource</li><li><strong>R → P</strong> = Assignment edge — resource is GIVEN to this process</li></ul></div>
+</div>
+<h4 style="margin:13px 0 8px">Deadlock Detection Rules</h4>
+<ul class="tlist">
+<li><span class="n ng">1</span><div><strong>No cycle in graph</strong> → Definitely NO deadlock. System is safe.</div></li>
+<li><span class="n nr">2</span><div><strong>Cycle + only 1 instance per resource type</strong> → Definitely DEADLOCK.</div></li>
+<li><span class="n no">3</span><div><strong>Cycle + multiple instances per resource type</strong> → POSSIBLE deadlock (need further analysis).</div></li>
+</ul>
+<div class="def"><div class="lbl">Example: RAG with DEADLOCK</div><p>P1→R1 (P1 wants R1), R1→P2 (R1 given to P2), P2→R2 (P2 wants R2), R2→P1 (R2 given to P1). Cycle: P1→R1→P2→R2→P1. Single instance per resource. → <strong class="hl">DEADLOCK</strong></p></div>
+<div class="def"><div class="lbl">Example: RAG with Cycle but NO DEADLOCK</div><p>R1 has 2 instances. P1 holds one, P3 holds one. P2 requests R1 and waits. Cycle exists, but P3 will finish and release R1, allowing P2 to proceed. → <strong class="hl2">NO DEADLOCK</strong></p></div>
+<div class="trick">RAG with cycle + single instance = certain deadlock. RAG with cycle + multiple instances = possible deadlock only.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">1.5</span><h3>Important Formula — Min/Max Resources for Deadlock</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>Given n processes where each process Pi needs a maximum of xi units of a resource. In worst case, each process holds (xi-1) units and waits for 1 more. One extra unit breaks the deadlock chain.</p>
+<div class="formula"><span class="ft">Deadlock Resource Formula</span>Max units that ENSURE Deadlock    =  (x₁ + x₂ + ... + xₙ) - n  =  Σxi - n
+
+Min units that ENSURE NO Deadlock  =  (Σxi - n) + 1
+
+Where:  n = number of processes,   xi = maximum need of process Pi</div>
+<div class="key">Logic: If each process holds (xi-1) units, total held = Σxi - n. They're all waiting. Add 1 more unit → one process can complete → chain reaction → no deadlock.</div>
+</div></div>
+
+<!-- UNIT 2 -->
+<div class="unit" id="u2"><div class="ppt">PPT 1.3.2</div><h2>Unit 2 — Deadlock Handling</h2><p>Prevention (4 ways) · Avoidance · Detection &amp; Recovery · Ignorance</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">2.1</span><h3>Overview of 4 Deadlock Handling Strategies</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="g4">
+<div class="card cb"><div class="ct">Prevention</div><p>Break one of the 4 Coffman conditions at design time. Most restrictive.</p></div>
+<div class="card cg"><div class="ct">Avoidance</div><p>Check safe state before every allocation (Banker's Algorithm). Smart but expensive.</p></div>
+<div class="card co"><div class="ct">Detection &amp; Recovery</div><p>Let deadlock happen, detect it, then recover. Reactive approach.</p></div>
+<div class="card cr"><div class="ct">Ignorance</div><p>Pretend deadlock doesn't exist. Used by Windows &amp; Linux (Ostrich Algorithm).</p></div>
+</div>
+<div class="trick"><strong>P-A-D-I</strong> = Prevention → Avoidance → Detection → Ignorance. From most proactive to most passive.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">2.2</span><h3>Deadlock Prevention — Breaking the 4 Conditions</h3><span class="arr">▼</span></div><div class="sec-bd">
+<ul class="tlist">
+<li><span class="n nb">1</span><div><strong>Violate Mutual Exclusion</strong><br>Make all resources shareable. Problem: Not possible — printers, tape drives, etc. are inherently non-shareable. This approach is impractical for real systems.</div></li>
+<li><span class="n no">2</span><div><strong>Violate Hold and Wait</strong><br>A process must request ALL resources it will ever need BEFORE it starts. If it cannot get everything, it holds nothing and waits.<br><span class="hl">Drawbacks:</span> Wasteful (resources locked up early). Hard to predict all needs. Can cause starvation for processes needing many resources.</div></li>
+<li><span class="n nr">3</span><div><strong>Violate No Preemption</strong><br>Allow OS to forcefully take a resource from a waiting process. Preempted resources are returned to the pool. The victim process restarts later.<br>Only practical for saveable resources (CPU, memory pages). NOT for printers or disk arms.</div></li>
+<li><span class="n np">4</span><div><strong>Violate Circular Wait (Most Practical!)</strong><br>Assign a unique number to every resource type. Processes can only request resources in STRICTLY INCREASING order of these numbers. Circular chains become impossible.<br><span class="hl2">Result:</span> May cause starvation but NEVER causes deadlock.</div></li>
+</ul>
+<div class="trick">Most practical approach = violate Circular Wait by enforcing ordering on resource requests. Simple to implement, no runtime overhead.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">2.3</span><h3>Deadlock Avoidance — Safe State Concept</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>In avoidance, the OS checks before every allocation: "If I grant this request, will the system remain in a SAFE state?" If yes → grant. If no → make process wait.</p>
+<div class="def"><div class="lbl">Safe State</div><p>A system is in a SAFE STATE if there exists at least one safe sequence — an ordering of all processes where each process can obtain all its required resources, complete, and release them, allowing the next process to proceed. Safe state guarantees NO deadlock will ever occur.</p></div>
+<div class="def"><div class="lbl">Unsafe State</div><p>No safe sequence exists. Deadlock MAY occur depending on future requests (not certain, but possible). The OS avoids entering unsafe states proactively.</p></div>
+<div class="key">Safe → Deadlock impossible. Unsafe → Deadlock possible but not guaranteed.</div>
+<div class="imp">Banker's Algorithm (Unit 3) is the primary example of deadlock avoidance. It requires each process to declare maximum resource needs upfront — often impractical in real systems.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">2.4</span><h3>Deadlock Detection</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>The OS allows deadlocks to occur, then periodically detects them using algorithms.</p>
+<div class="g2">
+<div class="card cb"><div class="ct">Single Instance Resources</div><p>Look for cycles in the RAG (Resource Allocation Graph). A cycle in the RAG with single instances = deadlock with 100% certainty.</p></div>
+<div class="card co"><div class="ct">Multiple Instances per Resource</div><p>A cycle alone is not sufficient. Must run the Safety Algorithm — convert RAG to Allocation and Request matrices, then check for a safe sequence. No safe sequence = deadlock.</p></div>
+</div>
+<div class="note">OS can run detection periodically (every N seconds) or when CPU utilization drops significantly — a sign that processes might be blocked in deadlock.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">2.5</span><h3>Deadlock Recovery</h3><span class="arr">▼</span></div><div class="sec-bd">
+<h4 style="color:#3b5bdb;margin-bottom:9px">Recovery via Resources</h4>
+<div class="g2">
+<div class="card cb"><div class="ct">Resource Preemption</div><p>Take a resource away from one process (the "victim") and give it to the deadlocked process. The victim is rolled back and retries later. Must choose victim carefully to minimize wasted work.</p></div>
+<div class="card cp"><div class="ct">Rollback to Safe State</div><p>OS saves periodic checkpoints. On detecting deadlock, rollback the entire system to the last saved safe checkpoint. All changes after that checkpoint are undone. Expensive but complete.</p></div>
+</div>
+<h4 style="color:#3b5bdb;margin:13px 0 9px">Recovery via Processes</h4>
+<div class="g2">
+<div class="card co"><div class="ct">Kill One Process</div><p>Terminate the process that has done the least work (minimum loss). This releases all its resources. The process must restart from the beginning.</p></div>
+<div class="card cr"><div class="ct">Kill All Deadlocked Processes</div><p>Terminate all processes in the deadlock. Completely breaks the deadlock but wastes all work done by those processes. Most drastic option.</p></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">2.6</span><h3>Deadlock Ignorance — Ostrich Algorithm</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Ostrich Algorithm</div><p>The OS simply ignores the possibility of deadlock, like an ostrich burying its head in the sand. If deadlock occurs, the user notices the system freeze and manually reboots or kills the stuck processes.</p></div>
+<div class="key">Both <strong>Windows</strong> and <strong>Linux</strong> use the Ostrich Algorithm. Reasoning: deadlocks are very rare in practice. The overhead of prevention/avoidance/detection costs more than occasionally dealing with a rare deadlock manually.</div>
+<div class="imp">This is the MOST WIDELY USED method in real-world operating systems!</div>
+</div></div>
+
+<!-- UNIT 3 -->
+<div class="unit" id="u3"><div class="ppt">PPT 1.3.3</div><h2>Unit 3 — Banker's Algorithm</h2><p>Safe State · 4 Data Structures · 3-Step Request · Safety Algorithm · Limitations</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">3.1</span><h3>What is Banker's Algorithm?</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p>Banker's Algorithm is a <strong>deadlock avoidance</strong> algorithm. Before every resource allocation, it simulates granting the request and checks whether the resulting state is safe. If safe → grant. If unsafe → deny and make process wait. Named after banking: a bank only lends money when confident it can still meet all customers' needs.</p></div>
+<div class="key">Developed by Edsger Dijkstra. Works for systems with multiple resource types, each with multiple instances. Every process must declare its MAXIMUM resource needs at startup.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">3.2</span><h3>Four Data Structures</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>Assume n processes and m resource types:</p>
+<div class="g2">
+<div class="card cb"><div class="ct">Available [1 × m]</div><p>Available[j] = currently free instances of resource type j. Updates as resources are allocated and released.</p></div>
+<div class="card co"><div class="ct">Max [n × m]</div><p>Max[i][j] = maximum instances of resource j that process i may ever request. Declared when process starts. Cannot change.</p></div>
+<div class="card cg"><div class="ct">Allocation [n × m]</div><p>Allocation[i][j] = instances of resource j currently allocated to process i right now.</p></div>
+<div class="card cr"><div class="ct">Need [n × m] — Most Important!</div><p><strong>Need[i][j] = Max[i][j] − Allocation[i][j]</strong>. How many more instances process i might still request before completing.</p></div>
+</div>
+<div class="formula"><span class="ft">Most Important Formula</span>Need[i][j]  =  Max[i][j]  −  Allocation[i][j]
+
+ALWAYS compute the Need matrix FIRST when solving problems!</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">3.3</span><h3>Banker's Algorithm — 3-Step Request Process</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>When process Pi makes a resource request Request[i]:</p>
+<ul class="tlist">
+<li><span class="n nb">1</span><div><strong>Validity Check:</strong> Is Request[i] ≤ Need[i]?<br>YES → go to Step 2. &nbsp; NO → Error! Process exceeded declared maximum. Abort request.</div></li>
+<li><span class="n ng">2</span><div><strong>Availability Check:</strong> Is Request[i] ≤ Available?<br>YES → go to Step 3. &nbsp; NO → Not enough free resources. Process must WAIT.</div></li>
+<li><span class="n no">3</span><div><strong>Pretend-and-Test:</strong> Temporarily grant the request:<br>• Available = Available − Request[i]<br>• Allocation[i] = Allocation[i] + Request[i]<br>• Need[i] = Need[i] − Request[i]<br>Run Safety Algorithm. If SAFE → actually grant ✓. If UNSAFE → rollback all changes, process waits ✗.</div></li>
+</ul>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">3.4</span><h3>Safety Algorithm — Finding the Safe Sequence</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>Determines whether the current state is safe. Tries to find an order in which all processes can complete.</p>
+<div class="def"><div class="lbl">Steps</div>
+<ol style="padding-left:19px;line-height:2.1;font-size:.94em">
+<li>Set <strong>Work = Available</strong> (working copy of free resources)</li>
+<li>Set <strong>Finish[i] = false</strong> for all i (no process finished yet)</li>
+<li>Find any process Pi where: <strong>Finish[i] = false</strong> AND <strong>Need[i] ≤ Work</strong></li>
+<li>If found: <strong>Work = Work + Allocation[i]</strong>, set <strong>Finish[i] = true</strong>, go to Step 3</li>
+<li>If all Finish[i] = true → <span class="hl2">SAFE STATE ✓</span>. Else → <span class="hl">UNSAFE STATE ✗</span></li>
+</ol>
+</div>
+<div class="key">The order in which processes are selected forms the Safe Sequence. Multiple valid safe sequences may exist.</div>
+<div class="trick">Work = available resources pool. Each time a process Pi finishes, its allocated resources return to Work. Next process that fits gets to run. Chain reaction to completion.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">3.5</span><h3>Limitations of Banker's Algorithm</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g2">
+<div class="card cr"><div class="ct">Limitations</div><ul>
+<li>Processes must declare maximum needs upfront — often unknown</li>
+<li>Safety check overhead on EVERY allocation request</li>
+<li>Only works when number of processes and resources is fixed</li>
+<li>Cannot handle dynamic resource types added at runtime</li>
+<li>Does not work if a process can claim unlimited resources</li>
+</ul></div>
+<div class="card cg"><div class="ct">Key Facts (Q&amp;A)</div><ul>
+<li>Safe state = guaranteed no deadlock</li>
+<li>Unsafe state = possible deadlock (not certain)</li>
+<li>A system can be safe with only 1 free resource if a safe sequence exists</li>
+<li>Banker's cannot prevent ALL deadlock situations (dynamic demands)</li>
+</ul></div>
+</div>
+</div></div>
+
+<!-- UNIT 4 -->
+<div class="unit" id="u4"><div class="ppt">L-2.1.1</div><h2>Unit 4 — Memory Management</h2><p>Address Binding · Dynamic Loading · Dynamic Linking · Logical vs Physical Address · Base/Limit Registers</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">4.1</span><h3>Memory Management — Introduction</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p><strong>Memory Management</strong> is the process of controlling and coordinating computer memory — assigning portions (blocks) to various running programs to optimize overall system performance. Main memory (RAM) is where programs must reside to execute.</p></div>
+<div class="key">Goals: Efficient memory use · Protection between processes · Support multiprogramming · Fast access for CPU</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.2</span><h3>Address Binding — 3 Types</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Address Binding</strong> is mapping the program's logical (virtual) addresses to corresponding physical (RAM) addresses. Must happen before the CPU can execute the program.</p></div>
+<ul class="tlist">
+<li><span class="n nb">1</span><div><strong>Compile-Time Binding (Static)</strong> — Compiler directly generates absolute physical addresses. Program must always load at the same fixed location. Oldest method. If location occupied → program cannot run.</div></li>
+<li><span class="n ng">2</span><div><strong>Load-Time Binding</strong> — Compiler generates relocatable code (relative to address 0). The OS loader converts to absolute addresses when loading. If program moves → must reload entirely.</div></li>
+<li><span class="n no">3</span><div><strong>Execution-Time Binding (Dynamic)</strong> — Address translation happens at runtime by the MMU hardware. Process can be moved during execution. Used by ALL modern operating systems.</div></li>
+</ul>
+<div class="trick">Compile-time = fixed. Load-time = set at loading. Execution-time = translated on-the-fly. Most flexible = Execution-time.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.3</span><h3>Dynamic Loading</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Dynamic Loading</strong> = a routine is loaded into RAM ONLY when it is called during execution. If never called, it is NEVER loaded. Also called Loading on Demand.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Better memory utilization — unused routines never occupy RAM</li><li>Useful for large error handling or rarely-used code</li><li>No special OS support needed — done in program design</li></ul></div><div class="vs-r"><div class="vt">Note</div><ul><li>The program itself manages which routines load when</li><li>OS does NOT automatically implement this</li><li>Programmer must design the program with dynamic loading in mind</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.4</span><h3>Dynamic Linking</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Dynamic Linking</strong> postpones linking of library code until execution time. A small stub code locates and links the actual library routine at runtime. OS support IS required (unlike dynamic loading).</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Static Linking</div><ul><li>Library code copied INTO the executable at compile time</li><li>Every program has its own copy of library in its file</li><li>Larger executable files</li><li>No OS support needed</li></ul></div><div class="vs-r"><div class="vt">Dynamic Linking</div><ul><li>Library stays separate (.dll in Windows, .so in Linux)</li><li>Multiple programs share ONE copy in RAM</li><li>Smaller executable files</li><li>OS support required to find and link at runtime</li></ul></div></div>
+<div class="key">Linking is postponed until execution time. Dynamic linking enables shared libraries. Windows DLL = Dynamic Link Library.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.5</span><h3>Process Address Space — Logical vs Physical</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g2">
+<div class="card cb"><div class="ct">Logical Address Space</div><p>Set of ALL logical (virtual) addresses generated by a running process. CPU sees only logical addresses. For 32-bit system: 0 to 2^32 − 1. Process thinks it owns this entire space.</p></div>
+<div class="card co"><div class="ct">Physical Address Space</div><p>Set of actual physical RAM addresses. What the memory controller uses to access hardware. Much smaller than virtual address space typically.</p></div>
+</div>
+<div class="key">Compile-time and load-time binding: logical = physical (same address). Execution-time binding: logical ≠ physical. MMU hardware does the translation every time.</div>
+<div class="formula"><span class="ft">Address Size Calculation</span>Physical address space = N words  →  Physical address size = log₂(N) bits
+Logical address space  = L words  →  Logical address size  = log₂(L) bits
+
+Steps: Convert bytes to words (divide by word_size), then take log₂</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.6</span><h3>Base and Limit Registers — Hardware Protection</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g2">
+<div class="card cb"><div class="ct">Base Register</div><p>Holds the STARTING physical address of the current process. Set by the OS when a process is scheduled.</p></div>
+<div class="card co"><div class="ct">Limit Register</div><p>Holds the SIZE (length) of the current process's memory region. Defines the boundary.</p></div>
+</div>
+<div class="key">CPU checks EVERY memory access: if Base ≤ Address ≤ Base + Limit → valid access. If outside → TRAP generated → OS terminates the process (segmentation fault). This prevents one process from corrupting another's memory.</div>
+<div class="note">This is called Hardware Address Protection. The check happens in CPU hardware automatically on every memory access — completely transparent to the program.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">4.7</span><h3>Key Components of Virtual Address Space</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g3">
+<div class="card cb"><div class="ct">Pages</div><p>Virtual memory divided into fixed-size blocks = pages. Basic unit of memory management.</p></div>
+<div class="card co"><div class="ct">Code Segment</div><p>Holds the executable instructions of the process — the program's machine code.</p></div>
+<div class="card cg"><div class="ct">Data Segment</div><p>Global variables, heap (dynamically allocated memory). Holds program data during execution.</p></div>
+<div class="card cp"><div class="ct">Page Table</div><p>OS-maintained structure mapping virtual page numbers to physical frame numbers.</p></div>
+<div class="card cr"><div class="ct">Page Fault</div><p>When a process accesses a page not in RAM — OS must fetch it from disk.</p></div>
+<div class="card cb"><div class="ct">Stack Segment</div><p>Local variables, function call stack, return addresses. Grows/shrinks dynamically.</p></div>
+</div>
+</div></div>
+
+<!-- UNIT 5 -->
+<div class="unit" id="u5"><div class="ppt">L-2.1.2</div><h2>Unit 5 — Memory Allocation Techniques</h2><p>Swapping · Single Contiguous · Fixed Partition · Dynamic Partition · First/Best/Worst Fit · Compaction</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">5.1</span><h3>Swapping</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p>Swapping = temporarily moving a process from RAM to secondary storage (disk) to free up memory. SWAP OUT: process moved to disk. SWAP IN: process brought back to RAM. Allows more processes than RAM can hold simultaneously.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Allows more processes than RAM can hold</li><li>Increases degree of multiprogramming</li><li>Large processes can be accommodated</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>Slow — disk I/O is much slower than RAM</li><li>Context switch time increases significantly</li><li>Performance degrades with heavy swapping</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">5.2</span><h3>Single Contiguous Memory Allocation</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>Simplest scheme. Memory split into exactly 2 parts: OS area (fixed, lower addresses) + one user process area (entire remaining RAM). Only ONE user process runs at a time. No multitasking. Used by earliest computer systems only.</p>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">5.3</span><h3>Fixed Partition Scheme (Static Partitioning)</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p>Memory is divided into a fixed number of partitions at system startup. Sizes may be equal or unequal, but CANNOT change during operation.</p></div>
+<div class="def"><div class="lbl">Internal Fragmentation</div><p>Wasted space INSIDE an allocated partition. If 5KB process goes in 8KB partition → 3KB wasted inside. Cannot be used by anyone else. This is the MAIN PROBLEM of fixed partitions.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Simple to implement and manage</li><li>Fast allocation — OS picks a partition quickly</li><li>Predictable behavior</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>Internal fragmentation wastes memory</li><li>Fixed number of processes limits multitasking</li><li>Process larger than biggest partition cannot run</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">5.4</span><h3>Dynamic (Variable) Partition Scheme</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p>When a process arrives, a partition is created that is EXACTLY the process size. No internal fragmentation. But after many allocate/deallocate cycles, free space becomes scattered.</p></div>
+<div class="def"><div class="lbl">External Fragmentation</div><p>Free memory is scattered in small non-contiguous blocks. Total free memory might be enough, but no single block is large enough for a new process. Solution = Compaction.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>No internal fragmentation</li><li>Efficient memory use</li><li>More processes can load simultaneously</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>External fragmentation builds up over time</li><li>Need allocation algorithms to choose which hole to use</li><li>More complex to manage than fixed partitions</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">5.5</span><h3>Dynamic Storage Allocation — First Fit, Best Fit, Worst Fit</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g3">
+<div class="card cb"><div class="ct">First Fit</div><p>Scan from start, use the FIRST hole large enough. Stop immediately when found. Fast. May fragment the beginning of memory.</p></div>
+<div class="card cg"><div class="ct">Best Fit</div><p>Search entire list, use the SMALLEST hole that still fits. Minimizes wasted space per allocation. Leaves tiny fragments. Slower.</p></div>
+<div class="card cr"><div class="ct">Worst Fit</div><p>Search entire list, use the LARGEST hole. Leaves biggest leftover (theoretically more useful). Generally the least efficient in practice.</p></div>
+</div>
+<div class="trick">First Fit and Best Fit are generally better than Worst Fit. First Fit = fastest. Best Fit = least waste per allocation. Worst Fit = generally avoided.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">5.6</span><h3>Compaction</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p>Rearranging all running processes in memory so all free blocks merge into ONE large contiguous block. Solves external fragmentation. REQUIRES execution-time (dynamic) address binding. Very expensive — every process must physically move and have its addresses updated.</p></div>
+<div class="g2">
+<div class="card cg"><div class="ct">How It Works</div><ul><li>OS moves all processes to one end of RAM</li><li>All free space merges at the other end</li><li>Base registers of all processes are updated</li></ul></div>
+<div class="card cr"><div class="ct">Cost &amp; Requirements</div><ul><li>Requires dynamic address binding (execution-time)</li><li>Expensive — physically moves every process</li><li>System may pause during compaction</li></ul></div>
+</div>
+</div></div>
+
+<!-- UNIT 6 -->
+<div class="unit" id="u6"><div class="ppt">L-2.1.4</div><h2>Unit 6 — Paging &amp; Segmentation</h2><p>Paging · TLB · Shared Pages · Multi-Level · Hashed · Inverted · Segmentation · Combined</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">6.1</span><h3>Paging — Core Concept</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p><strong>Paging</strong> = non-contiguous memory allocation scheme. Physical memory split into fixed-size FRAMES. Logical memory split into same-size PAGES. Any page can go into any available frame. A PAGE TABLE maps page number → frame number.</p></div>
+<div class="g2">
+<div class="card cb"><div class="ct">Advantages</div><ul><li>Eliminates external fragmentation completely</li><li>Any page fits any frame — non-contiguous OK</li><li>Easy swapping (all same size)</li><li>Supports virtual memory efficiently</li></ul></div>
+<div class="card cr"><div class="ct">Disadvantages</div><ul><li>Internal fragmentation (last page may not be full)</li><li>Page table requires extra memory</li><li>Two memory accesses per data access (without TLB)</li></ul></div>
+</div>
+<div class="formula"><span class="ft">Key Paging Formulas</span>Page Number  =  Logical Address  ÷  Page Size  (integer division)
+Page Offset  =  Logical Address  mod  Page Size
+
+Physical Address  =  Frame Number × Page Size  +  Offset
+
+If logical space = 2^m, page size = 2^n:
+  Page number = high-order (m−n) bits
+  Offset      = low-order   n    bits</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.2</span><h3>TLB — Translation Lookaside Buffer</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Problem</div><p>Page table is in main memory → every memory access needs 2 accesses (1 for page table, 1 for data). Doubles access time!</p></div>
+<div class="def"><div class="lbl">Solution — TLB</div><p>A small, fast hardware cache storing recently used page table entries. Part of the CPU's MMU (Memory Management Unit).</p></div>
+<div class="g2">
+<div class="card cg"><div class="ct">TLB Hit</div><p>Page entry found in TLB → get physical address immediately → only ONE memory access needed. Fast path!</p></div>
+<div class="card cr"><div class="ct">TLB Miss</div><p>Not in TLB → must access main memory page table → TWO accesses needed. The entry is then loaded into TLB.</p></div>
+</div>
+<div class="formula"><span class="ft">Effective Access Time (EAT)</span>EAT = (Hit Rate × Access_With_TLB_Hit) + (Miss Rate × Access_With_TLB_Miss)
+
+With TLB hit:  1 TLB lookup + 1 memory access
+With TLB miss: 1 TLB miss + 2 memory accesses (page table + data)</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.3</span><h3>Shared Pages</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Concept</div><p>Multiple processes can have page table entries pointing to the SAME physical frame. Different logical pages map to the same physical page. Saves RAM significantly.</p></div>
+<div class="g2">
+<div class="card cg"><div class="ct">Requirements</div><ul><li>Must be REENTRANT (code does not modify itself)</li><li>Must be READ-ONLY / write-protected</li><li>No writable data mixed with shared code</li></ul></div>
+<div class="card co"><div class="ct">Use Cases</div><ul><li>System libraries shared by many processes</li><li>Multiple users running same program (one code copy)</li><li>Inter-process communication via shared memory</li></ul></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.4</span><h3>Problem with Large Page Tables + Solutions</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">The Problem</div><p>32-bit address space + 4KB pages → 2^20 entries × 4 bytes = 4MB per process for page table alone. With 100 processes → 400MB just for page tables. 64-bit space makes it far worse.</p></div>
+<div class="g3">
+<div class="card cb"><div class="ct">Solution 1: Multi-Level Paging</div><p>Break page table into levels. Level-1 → Level-2 → frames. Only pages actually in use need page table entries in memory. PTBR holds Level-1 table address.</div></div>
+<div class="card cg"><div class="ct">Solution 2: Hashed Page Tables</div><p>Hash the virtual page number → hash table → linked list of entries. Good for 64-bit sparse address spaces. Fast lookup with hashing.</p></div>
+<div class="card co"><div class="ct">Solution 3: Inverted Page Tables</div><p>ONE entry per physical FRAME (not per logical page). Entry = (pid, page-number). Saves memory but slow lookup — use hash for speed.</p></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.5</span><h3>Multi-Level (Hierarchical) Paging — Detail</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Concept</div><p>Page table itself is paged. Level-1 table entries point to Level-2 tables. Level-2 entries point to actual frames. PTBR (Page Table Base Register) points to Level-1 table. Only parts of the page table actually in use need to be in memory.</div></div>
+<div class="key">Rule: If page table size &gt; desired size → add one more level. The more levels, the smaller each individual table — but more memory accesses per translation needed.</div>
+<div class="note">Two-level example (32-bit, 4KB pages): Logical address = 10 bits (Level-1 index) + 10 bits (Level-2 index) + 12 bits (offset).</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.6</span><h3>Hashed Page Tables</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Concept</div><p>Virtual page number hashed → index into hash table. Each slot = linked list (chain) of entries to handle collisions. Each entry contains: (virtual page number, frame number, pointer to next). Common for 64-bit address spaces.</p></div>
+<div class="key">The virtual page number (all bits except offset bits) is used as the hash key. Linked lists handle hash collisions.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.7</span><h3>Inverted Page Table</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Concept</div><p>Traditional: one entry per LOGICAL page per process. Inverted: ONE entry per PHYSICAL FRAME for the entire system. Each entry = (process ID, logical page number). Only one table regardless of how many processes exist.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantage</div><ul><li>Only one table for entire system — huge memory savings</li><li>Table size = number of physical frames (fixed)</li></ul></div><div class="vs-r"><div class="vt">Disadvantage</div><ul><li>Slow lookup — must search for (pid, page-number)</li><li>Solution: use hash table with key = (pid, page-number)</li></ul></div></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.8</span><h3>Segmentation — Core Concept</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Segmentation</strong> = memory management scheme where a program is divided into variable-size logical segments based on its structure. Unlike paging (physical division), segmentation matches the programmer's logical view of a program.</p></div>
+<div class="g2">
+<div class="card co"><div class="ct">Typical Segments</div><ul><li>Code segment (executable instructions)</li><li>Data segment (global variables)</li><li>Stack segment (local variables, function calls)</li><li>Heap segment (dynamic memory allocation)</li><li>Shared library segments</li></ul></div>
+<div class="card cp"><div class="ct">Segment Table</div><p>OS maintains per-process segment table. Each entry has:<br>• <strong>Base</strong> — starting physical address<br>• <strong>Limit</strong> — size of the segment</p></div>
+</div>
+<div class="def"><div class="lbl">Key Registers</div><p><strong>STBR</strong> (Segment Table Base Register) — physical address of segment table in memory.<br><strong>STLR</strong> (Segment Table Length Register) — number of segments. Segment s is valid only if s &lt; STLR.</p></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.9</span><h3>Segmentation — Address Translation</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Logical Address Format</div><p>&lt;segment-number, offset&gt;</p></div>
+<ul class="tlist">
+<li><span class="n nb">1</span><div>CPU generates (segment-number, offset)</div></li>
+<li><span class="n nb">2</span><div>Look up segment table with segment-number → get Base and Limit</div></li>
+<li><span class="n ng">3</span><div>Validity check: Is offset &lt; Limit? YES → valid</div></li>
+<li><span class="n ng">4</span><div>Physical Address = Base + Offset ✓</div></li>
+<li><span class="n nr">5</span><div>If offset ≥ Limit → TRAP → segmentation fault → OS terminates process</div></li>
+</ul>
+<div class="formula"><span class="ft">Segmentation Formula</span>Physical Address  =  Base[segment#]  +  Offset
+
+MUST CHECK:  Offset  &lt;  Limit[segment#]   (if not → segmentation fault!)</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.10</span><h3>Paging vs Segmentation — Comparison</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="tw"><table><thead><tr><th>Feature</th><th>Paging</th><th>Segmentation</th></tr></thead><tbody>
+<tr><td>Division unit</td><td>Fixed-size pages</td><td>Variable-size segments</td></tr>
+<tr><td>Division basis</td><td>Physical (hardware)</td><td>Logical (programmer-defined)</td></tr>
+<tr><td>Fragmentation</td><td>Internal only</td><td>External only</td></tr>
+<tr><td>Address format</td><td>page# + offset</td><td>segment# + offset</td></tr>
+<tr><td>Table</td><td>Page Table</td><td>Segment Table (Base + Limit)</td></tr>
+<tr><td>Programmer view</td><td>Transparent (unaware)</td><td>Programmer is aware</td></tr>
+<tr><td>Protection</td><td>Page-level protection bits</td><td>Segment-level (more natural)</td></tr>
+<tr><td>Sharing</td><td>Share individual pages</td><td>Share entire segments</td></tr>
+</tbody></table></div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">6.11</span><h3>Combined Segmentation and Paging</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Concept</div><p>Combines both: each segment is divided into pages. Gets logical view (segmentation) + non-contiguous physical storage (paging). Virtual address = segment# | page# | offset.</p></div>
+<ul class="tlist">
+<li><span class="n nb">1</span><div>Segment number → Segment Table → starting address of that segment's page table</div></li>
+<li><span class="n nb">2</span><div>Page number → Page Table → Frame number</div></li>
+<li><span class="n nb">3</span><div>Physical Address = Frame Number + Offset</div></li>
+</ul>
+</div></div>
+
+<!-- UNIT 7 -->
+<div class="unit" id="u7"><div class="ppt">L-2.1.5</div><h2>Unit 7 — Virtual Memory</h2><p>Concept · Demand Paging · Page Fault · FIFO · Optimal · LRU · Belady's Anomaly · Thrashing · Paging Advantages</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">7.1</span><h3>Virtual Memory — Concept and Purpose</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p><strong>Virtual Memory</strong> = creates the illusion that each process has a very large private address space, even though physical RAM is limited. Uses secondary storage (disk/SSD) as an extension of RAM. Only the currently needed pages are kept in RAM.</p></div>
+<div class="note">The word "virtual" = appearing to exist but not really there. A process with 4GB virtual space doesn't need 4GB of actual RAM — it just behaves as if it has it.</div>
+<div class="g2">
+<div class="card cg"><div class="ct">Purpose 1 — Memory Extension</div><p>Programs larger than physical RAM can run. Only needed parts in RAM. Rest stays on disk until accessed.</p></div>
+<div class="card cb"><div class="ct">Purpose 2 — Memory Protection</div><p>Each process gets its own virtual address space. One process cannot access another's memory — isolation guaranteed.</p></div>
+</div>
+<h4 style="margin:12px 0 8px">Limitations of Virtual Memory</h4>
+<ul class="tlist">
+<li><span class="n nr">✗</span><div><strong>CPU overhead</strong> — significant overhead for address translation and page management</div></li>
+<li><span class="n nr">✗</span><div><strong>I/O overhead</strong> — disk I/O for page swapping is millions of times slower than RAM</div></li>
+<li><span class="n nr">✗</span><div><strong>Thrashing</strong> — system may spend more time swapping than executing if working set doesn't fit in RAM</div></li>
+<li><span class="n nr">✗</span><div><strong>Fragmentation</strong> — still causes internal fragmentation in paging-based virtual memory</div></li>
+</ul>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.2</span><h3>Demand Paging</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Demand Paging</strong> = pages are loaded into RAM ONLY when they are actually accessed (on demand). Not all pages are loaded when the program starts. "Lazy loading" strategy — load only what's needed, when it's needed.</p></div>
+<div class="def"><div class="lbl">Pure Demand Paging</div><p>NOTHING is loaded at process startup. The very first instruction causes a page fault. Very lazy — maximum laziness. Can cause many page faults at startup but allows fastest process launch time.</p></div>
+<div class="key">Demand paging allows programs much larger than RAM to run, and speeds up process startup (don't wait for everything to load).</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.3</span><h3>Page Fault — Definition and Handling</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Page Fault</strong> = CPU tries to access a page that is NOT currently in RAM. The page table entry has its "present bit" = 0. CPU generates a trap interrupt to the OS.</p></div>
+<h4 style="margin:12px 0 8px">Page Fault Handling Steps</h4>
+<ul class="tlist">
+<li><span class="n nb">1</span><div>CPU accesses virtual address. Page table shows page not present → PAGE FAULT interrupt</div></li>
+<li><span class="n nb">2</span><div>OS saves current process state (registers, etc.)</div></li>
+<li><span class="n nb">3</span><div>OS checks if the access is valid (within process's address space). Invalid → terminate process.</div></li>
+<li><span class="n nb">4</span><div>OS finds a free physical frame in RAM. If none → run page replacement algorithm to evict a page.</div></li>
+<li><span class="n ng">5</span><div>OS reads the required page from disk into the free frame</div></li>
+<li><span class="n ng">6</span><div>OS updates page table — sets frame number and present bit = 1</div></li>
+<li><span class="n ng">7</span><div>OS restores saved process state and restarts the faulting instruction</div></li>
+</ul>
+<div class="imp">Page fault handling involves disk I/O (~10ms) vs RAM access (~100ns) — about 100,000x slower. Minimizing page faults is critical for system performance.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.4</span><h3>Page Replacement Algorithms — Overview</h3><span class="arr">▼</span></div><div class="sec-bd">
+<p>When a page fault occurs and RAM is full, the OS must choose a victim page to evict. Goal: minimize future page faults.</p>
+<hr class="div">
+<h4 style="color:#e03131;margin-bottom:7px">FIFO — First In, First Out</h4>
+<div class="def"><div class="lbl">Rule</div><p>The page that has been in memory the LONGEST (was loaded earliest) is replaced first. Simple queue — new pages at front, evictions from back.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantage</div><ul><li>Very simple to implement — just a queue</li><li>Minimal overhead</li></ul></div><div class="vs-r"><div class="vt">Disadvantage</div><ul><li><strong>Belady's Anomaly:</strong> more frames can cause MORE page faults</li><li>Worst performance of the three algorithms</li><li>Old page ≠ useless page (may still be needed)</li></ul></div></div>
+<hr class="div">
+<h4 style="color:#7048e8;margin-bottom:7px">Optimal Page Replacement (OPT / MIN)</h4>
+<div class="def"><div class="lbl">Rule</div><p>Replace the page that will NOT be used for the LONGEST time in the FUTURE. Gives minimum possible page fault rate.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantage</div><ul><li>Gives absolute minimum page faults</li><li>Perfect benchmark to compare other algorithms against</li></ul></div><div class="vs-r"><div class="vt">Disadvantage</div><ul><li><strong>Impossible to implement</strong> in real systems — requires knowing the future sequence of page accesses</li><li>Only used as theoretical reference</li></ul></div></div>
+<hr class="div">
+<h4 style="color:#1971c2;margin-bottom:7px">LRU — Least Recently Used</h4>
+<div class="def"><div class="lbl">Rule</div><p>Replace the page that has NOT been used for the LONGEST time in the PAST. Uses recent past as a predictor of near future (principle of locality of reference).</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Best practical algorithm — close to Optimal</li><li>No Belady's Anomaly (stack algorithm)</li><li>Solid theoretical basis (locality principle)</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>More complex than FIFO</li><li>Requires tracking when each page was last used</li><li>Slight overhead</li></ul></div></div>
+<hr class="div">
+<div class="tw"><table><thead><tr><th>Algorithm</th><th>Replace Which</th><th>Implementable</th><th>Belady's</th><th>Performance</th></tr></thead><tbody>
+<tr><td>FIFO</td><td>Oldest page in memory</td><td>Yes</td><td>Yes ⚠️</td><td>Worst</td></tr>
+<tr><td>Optimal</td><td>Furthest future use</td><td>No</td><td>No</td><td>Best (theoretical)</td></tr>
+<tr><td>LRU</td><td>Least recently used</td><td>Yes</td><td>No</td><td>Near-optimal ✓</td></tr>
+</tbody></table></div>
+<div class="trick">Page Faults: FIFO ≥ LRU ≥ Optimal. LRU = best practical choice. Optimal = benchmark only.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.5</span><h3>Belady's Anomaly</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Belady's Anomaly</strong> = the observation that for the FIFO algorithm, increasing the number of available page frames can sometimes INCREASE the number of page faults. Counter-intuitive — normally more frames = fewer faults.</p></div>
+<div class="key">Belady's Anomaly ONLY occurs in FIFO. LRU and Optimal are "stack algorithms" — mathematically proven immune to Belady's Anomaly. Stack algorithms guarantee: more frames → same or fewer faults.</div>
+<div class="note">Classic example: Reference string 1,2,3,4,1,2,5,1,2,3,4,5 — FIFO with 3 frames = 9 faults, FIFO with 4 frames = 10 faults. This is Belady's Anomaly in action.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.6</span><h3>Thrashing</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p><strong>Thrashing</strong> = a process does not have enough frames for its working set, causing continuous page faults. The OS spends more time swapping pages in/out than executing programs. CPU utilization drops to near zero. System becomes completely unresponsive.</p></div>
+<div class="g2">
+<div class="card cr"><div class="ct">Symptoms</div><ul><li>Very high page fault rate</li><li>Near-zero CPU utilization</li><li>Disk at 100% constantly</li><li>System feels frozen</li></ul></div>
+<div class="card cg"><div class="ct">Solutions</div><ul><li>Reduce number of running processes</li><li>Increase physical RAM</li><li>Use working set model</li><li>Page fault frequency control algorithm</li></ul></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">7.7</span><h3>Advantages and Disadvantages of Paging (from PPT)</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul>
+<li>Reduces external fragmentation completely</li>
+<li>Simple to implement</li>
+<li>Efficient memory management technique</li>
+<li>Due to equal size pages/frames, swapping is easy</li>
+<li>Supports virtual memory efficiently</li>
+</ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul>
+<li>Still suffers from internal fragmentation</li>
+<li>Page table requires extra memory (not good for small RAM systems)</li>
+<li>Two memory accesses needed per data access (solved by TLB)</li>
+<li>Page fault handling is expensive (involves disk I/O)</li>
+</ul></div></div>
+</div></div>
+
+<!-- UNIT 8 -->
+<div class="unit" id="u8"><div class="ppt">L-2.2.1</div><h2>Unit 8 — Disk Management</h2><p>Device Management · Disk Types · Physical Structure · Access Time · FCFS · SSTF · SCAN · C-SCAN · C-LOOK · Selection</p></div>
+
+<div class="sec"><div class="sec-hd op" onclick="tog(this)"><span class="sno">8.1</span><h3>Device Management in an OS</h3><span class="arr">▼</span></div><div class="sec-bd op">
+<div class="def"><div class="lbl">Definition</div><p>Device management = all activities used to control and coordinate hardware devices. Ensures efficient interaction between software and hardware. Covers both physical and virtual devices.</p></div>
+<div class="g3">
+<div class="card cb"><div class="ct">Hardware Device Mgmt</div><p>Managing physical devices (printers, disks, keyboards). Controlling how software sends commands to hardware.</p></div>
+<div class="card cg"><div class="ct">Virtual Device Mgmt</div><p>Creating virtual abstractions of physical hardware. Multiple programs can share one physical device.</p></div>
+<div class="card co"><div class="ct">Device Scheduling</div><p>Ordering I/O requests to maximize throughput. Queue management, synchronization, optimization.</p></div>
+</div>
+<h4 style="margin:12px 0 8px">5 Important Device Management Tasks</h4>
+<ul class="tlist">
+<li><span class="n nb">1</span><div><strong>Recognition</strong> — Examine hardware ID, compare to database of known devices</div></li>
+<li><span class="n no">2</span><div><strong>Configuration</strong> — Set up device settings, install drivers, allocate memory and I/O ports</div></li>
+<li><span class="n ng">3</span><div><strong>Control</strong> — Provide APIs for software to communicate with device, start/stop/reset operations</div></li>
+<li><span class="n np">4</span><div><strong>Monitoring</strong> — Track device status, performance metrics, and error conditions</div></li>
+<li><span class="n nr">5</span><div><strong>Security</strong> — Control which processes can access which devices, prevent unauthorized access</div></li>
+</ul>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.2</span><h3>Why Have Disks?</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g2">
+<div class="card cr"><div class="ct">Limitations of RAM</div><ul><li>Small capacity (GB range)</li><li>Volatile — data lost when power off</li><li>Expensive per GB</li></ul></div>
+<div class="card cg"><div class="ct">Why Disks Are Needed</div><ul><li>Large capacity (TB range)</li><li>Non-volatile — data persists without power</li><li>Cheap per GB</li><li>Swap space for virtual memory extension</li><li>File storage — OS, programs, user data</li></ul></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.3</span><h3>Types of Disks</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="tw"><table><thead><tr><th>Technology</th><th>Type</th><th>Interface</th><th>Speed</th><th>Typical Use</th></tr></thead><tbody>
+<tr><td>ATA / IDE / PATA (1986)</td><td>HDD</td><td>Parallel ATA</td><td>~133 MB/s</td><td>Old PCs</td></tr>
+<tr><td>SCSI (1980s)</td><td>HDD</td><td>SCSI bus</td><td>~320 MB/s</td><td>Servers</td></tr>
+<tr><td>SATA I/II/III (2003)</td><td>HDD/SSD</td><td>Serial ATA</td><td>Up to 600 MB/s</td><td>Modern desktops</td></tr>
+<tr><td>SAS (2004)</td><td>HDD/SSD</td><td>Serial SCSI</td><td>~12 Gbps</td><td>Enterprise servers</td></tr>
+<tr><td>NVMe SSD (2013)</td><td>SSD</td><td>PCIe</td><td>3500–7000 MB/s</td><td>Modern computers</td></tr>
+<tr><td>PCIe Gen5 NVMe</td><td>SSD</td><td>PCIe Gen5</td><td>10,000–14,000 MB/s</td><td>High-performance</td></tr>
+</tbody></table></div>
+<div class="key">SSD = No moving parts, faster and more durable than HDD. NVMe = Non-Volatile Memory Express — fastest SSD interface using PCIe bus.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.4</span><h3>Physical Disk Structure</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g3">
+<div class="card cb"><div class="ct">Platter</div><p>Circular magnetic disk. Multiple platters stacked on a central spindle. Data stored magnetically on both surfaces of each platter.</p></div>
+<div class="card co"><div class="ct">Track</div><p>Concentric circular paths on each platter surface. Numbered from outside (0) inward. Each surface has thousands of tracks.</p></div>
+<div class="card cg"><div class="ct">Sector</div><p>Smallest storage unit on a disk. A track divided into pie-slice sectors. Traditional = 512 bytes. Modern = 4KB (Advanced Format).</p></div>
+<div class="card cp"><div class="ct">Cylinder</div><p>All tracks at the SAME RADIUS across ALL platters. All R/W heads are aligned — can access an entire cylinder without moving.</p></div>
+<div class="card cr"><div class="ct">Read/Write Head</div><p>One per platter surface. Mounted on arm that moves radially to position over correct cylinder. All heads move together simultaneously.</p></div>
+<div class="card cb"><div class="ct">OS View</div><p>OS simplifies disk as a large 1D array of logical blocks (0 to N-1). OS maps block number → (cylinder, track, sector). Physical complexity is hidden.</p></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.5</span><h3>Disk Management Operations</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="g2">
+<div class="card cb"><div class="ct">Common Operations</div><ul>
+<li><strong>Partition a Drive</strong> — divide physical disk into logical sections</li>
+<li><strong>Format a Drive</strong> — prepare for file storage, create file system</li>
+<li><strong>Change Drive Letter</strong> — rename disk (Windows: C:, D:, etc.)</li>
+<li><strong>Shrink a Partition</strong> — reduce partition size to free space</li>
+<li><strong>Delete a Partition</strong> — remove a partition entirely</li>
+<li><strong>Change File System</strong> — NTFS, FAT32, ext4, etc.</li>
+</ul></div>
+<div class="card co"><div class="ct">Disk Bandwidth</div><p>Total bytes transferred ÷ total time from first request to last transfer completion. Measures overall disk I/O performance efficiency.</p></div>
+</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.6</span><h3>Disk Access Time — Three Components</h3><span class="arr">▼</span></div><div class="sec-bd">
+<ul class="tlist">
+<li><span class="n nr">1</span><div><strong>Seek Time (5–10ms) — DOMINANT COMPONENT</strong><br>Time for R/W head arm to physically move to the correct cylinder. This is the primary target of disk scheduling — minimizing seek distance minimizes seek time.</div></li>
+<li><span class="n no">2</span><div><strong>Rotational Latency (2–4ms)</strong><br>Time waiting for the disk to rotate until the correct sector is under the R/W head. Average = half a full rotation = (60 / RPM) / 2 seconds.</div></li>
+<li><span class="n ng">3</span><div><strong>Transfer Time (&lt;1ms) — SMALLEST</strong><br>Actual time to read or write the data from/to the disk surface. Depends on data size and rotation speed.</div></li>
+</ul>
+<div class="formula"><span class="ft">Disk Access Time</span>Total Access Time  =  Seek Time  +  Rotational Latency  +  Transfer Time
+
+Average Rotational Latency  =  (1/2) × (60 seconds / RPM)</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.7</span><h3>Disk Scheduling — Purpose and Goals</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Definition</div><p>When multiple processes request disk I/O simultaneously, the OS decides the ORDER in which to service these requests. Goal: minimize total seek time and maximize throughput while ensuring fairness.</p></div>
+<div class="g2">
+<div class="card cg"><div class="ct">Primary Goal</div><p>Minimize total seek time (= total head movement in cylinders). Since seek time ≈ seek distance, minimize total distance traveled by read/write head.</p></div>
+<div class="card co"><div class="ct">Secondary Goal</div><p>Fairness — prevent starvation. Ensure every request eventually gets served, even if not immediately.</p></div>
+</div>
+<div class="note">Standard exam problem: Queue = {98,183,37,122,14,124,65,67}, Head at 53, Range 0–199. Every student must know this problem with all 5 algorithms.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.8</span><h3>FCFS — First Come, First Served</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Rule</div><p>Service requests EXACTLY in the order they arrive. No optimization whatsoever. First request = first served.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Completely fair — arrival order respected</li><li>No starvation possible</li><li>Simple to implement</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>Very high seek distance — head jumps randomly</li><li>Not efficient for moderate to heavy loads</li></ul></div></div>
+<div class="note">Example result: Head at 53. Path: 53→98→183→37→122→14→124→65→67. Total = 640 cylinders.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.9</span><h3>SSTF — Shortest Seek Time First</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Rule</div><p>At each step, service the request with the SMALLEST distance from the current head position. Always move to the nearest unserved cylinder. Greedy algorithm.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>Much better than FCFS (≈236 vs 640 cylinders)</li><li>Minimizes individual seek times</li><li>Good for light to moderate loads</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li><strong>STARVATION POSSIBLE</strong> — if always nearby requests exist, distant cylinders may NEVER be served</li><li>Similar to SJF — not globally optimal</li></ul></div></div>
+<div class="note">Example result: Path: 53→65→67→37→14→98→122→124→183. Total ≈ 236 cylinders.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.10</span><h3>SCAN — Elevator Algorithm</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Rule</div><p>Head moves in one direction, servicing ALL requests along the way until it reaches the END OF THE DISK. Then it reverses and services in the other direction. Like an elevator going up to the top floor, then coming back down.</p></div>
+<div class="vs"><div class="vs-l"><div class="vt">Advantages</div><ul><li>No starvation — every request eventually served</li><li>Good performance under heavy load</li><li>Fair to most cylinder positions</li></ul></div><div class="vs-r"><div class="vt">Disadvantages</div><ul><li>Goes to physical disk end even if last request is not there</li><li>Cylinders just behind the head must wait for a full sweep</li></ul></div></div>
+<div class="note">Example: Head at 53 moving right → 65→67→98→122→124→183→199(end) then left → 37→14. Total ≈ 330 cylinders.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.11</span><h3>C-SCAN — Circular SCAN</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Rule</div><p>Head moves in ONE direction only, servicing requests. When it reaches the physical END of the disk (cylinder 199), it JUMPS back to the other end (cylinder 0) WITHOUT servicing on the way back. Then starts servicing again in the same direction. Treats disk as a circular list.</p></div>
+<div class="key">Provides MORE UNIFORM waiting times than SCAN — cylinders at both ends of the disk wait approximately the same amount of time.</div>
+<div class="note">Example: 53→65→67→98→122→124→183→199(end) JUMP to 0 → 14→37. Total ≈ 382 cylinders (more than SCAN due to full-width jump).</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.12</span><h3>C-LOOK — Circular LOOK</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="def"><div class="lbl">Rule</div><p>Like C-SCAN, but the head only goes as far as the LAST REQUEST in the current direction (NOT to the physical disk end). Then it jumps directly to the FIRST REQUEST (not cylinder 0) in the queue. No unnecessary travel to unused disk ends.</p></div>
+<div class="key">C-LOOK is an optimization of C-SCAN. Generally the best practical algorithm. Recommended as default (along with SSTF) for most systems.</div>
+<div class="vs"><div class="vs-l"><div class="vt">C-LOOK vs C-SCAN</div><ul><li>C-LOOK stops at LAST REQUEST (e.g., 183)</li><li>C-SCAN goes to physical disk END (e.g., 199)</li><li>C-LOOK jumps to FIRST REQUEST (e.g., 14)</li><li>C-SCAN jumps to cylinder 0</li><li>C-LOOK is more efficient — less wasted travel</li></ul></div><div class="vs-r"><div class="vt">SCAN vs C-SCAN/C-LOOK</div><ul><li>SCAN goes BOTH directions</li><li>C-SCAN and C-LOOK go ONE direction only</li><li>SCAN returns with service</li><li>C-SCAN/C-LOOK jump back without service</li><li>C-SCAN/C-LOOK give more uniform wait times</li></ul></div></div>
+<div class="note">Example: 53→65→67→98→122→124→183(last) JUMP to 14 → 37. Total ≈ 322 cylinders.</div>
+</div></div>
+
+<div class="sec"><div class="sec-hd" onclick="tog(this)"><span class="sno">8.13</span><h3>Selecting a Disk Scheduling Algorithm</h3><span class="arr">▼</span></div><div class="sec-bd">
+<div class="tw"><table><thead><tr><th>Algorithm</th><th>Seek Distance</th><th>Starvation</th><th>Best For</th></tr></thead><tbody>
+<tr><td>FCFS</td><td>640 (highest)</td><td>No</td><td>Very light load, simple fairness</td></tr>
+<tr><td>SSTF</td><td>236 (good)</td><td>Yes ⚠️</td><td>Light to moderate load</td></tr>
+<tr><td>SCAN</td><td>~330</td><td>No</td><td>Heavy load systems</td></tr>
+<tr><td>C-SCAN</td><td>~382</td><td>No</td><td>When uniform wait time is needed</td></tr>
+<tr><td>C-LOOK</td><td>~322 (best!)</td><td>No</td><td>Default recommendation ✓</td></tr>
+</tbody></table></div>
+<div class="key">SSTF is common and naturally appealing. SCAN and C-SCAN perform better for heavy disk loads. C-LOOK or SSTF = reasonable default. The disk scheduling algorithm should be a separate OS module so it can be replaced easily.</div>
+</div></div>
+
+</div>
+<footer><h3>Theory Notes Complete — All 8 PPTs</h3><p>PPT 1.3.1 · PPT 1.3.2 · PPT 1.3.3 · L-2.1.1 · L-2.1.2 · L-2.1.4 · L-2.1.5 · L-2.2.1</p></footer>
+<script>
+function tog(h){h.classList.toggle('op');var b=h.nextElementSibling;b.classList.toggle('op');}
+document.querySelectorAll('.sec-hd.op').forEach(function(h){h.nextElementSibling.classList.add('op');});
+</script>
+</body>
+</html>

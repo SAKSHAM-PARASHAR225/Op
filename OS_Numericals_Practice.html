@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Numericals Practice</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: Georgia, serif; background:#0f0f1a; color:#e0e0f0; min-height:100vh; }
+
+/* HERO */
+.hero { background:linear-gradient(135deg,#1a0533,#0d1a3a,#001a2e); padding:40px 20px 30px; text-align:center; border-bottom:3px solid #e94560; }
+.hero h1 { font-size:2.2em; color:#fff; margin-bottom:8px; }
+.hero h1 span { color:#e94560; }
+.hero p { color:#8899cc; font-size:1em; }
+.score-bar { display:flex; gap:16px; justify-content:center; margin-top:16px; flex-wrap:wrap; }
+.score-pill { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:20px; padding:6px 18px; font-size:0.85em; color:#ccd6f6; }
+.score-pill span { color:#e94560; font-weight:700; font-size:1.1em; }
+
+/* TABS */
+.tabs { background:#12122a; border-bottom:1px solid #2a2a50; padding:0 20px; display:flex; gap:0; overflow-x:auto; scrollbar-width:none; }
+.tabs::-webkit-scrollbar { display:none; }
+.tab { padding:13px 18px; font-size:0.82em; color:#8899cc; cursor:pointer; border-bottom:3px solid transparent; margin-bottom:-1px; white-space:nowrap; font-family:Georgia,serif; transition:all 0.2s; }
+.tab.active { color:#e94560; border-bottom-color:#e94560; }
+.tab:hover { color:#fff; }
+
+/* MAIN */
+.main { max-width:900px; margin:0 auto; padding:30px 20px; }
+
+/* QUESTION CARD */
+.q-card { background:#1a1a2e; border:1px solid #2a2a50; border-radius:14px; margin-bottom:24px; overflow:hidden; }
+.q-head { background:linear-gradient(90deg,#1e1e40,#1a1a2e); border-bottom:1px solid #2a2a50; padding:16px 22px; display:flex; gap:12px; align-items:center; }
+.q-num { background:#e94560; color:#fff; border-radius:8px; padding:3px 12px; font-size:0.78em; font-weight:700; flex-shrink:0; }
+.q-tag { background:rgba(255,255,255,0.05); border:1px solid #3a3a60; border-radius:20px; padding:3px 12px; font-size:0.75em; color:#8899cc; }
+.q-marks { margin-left:auto; color:#f7c948; font-size:0.82em; }
+.q-body { padding:22px; }
+.q-text { font-size:0.98em; color:#ccd6f6; line-height:1.8; margin-bottom:18px; }
+.q-text strong { color:#fff; }
+
+/* TABLE in question */
+.q-table { background:#12122a; border:1px solid #2a2a50; border-radius:8px; overflow:auto; margin:12px 0; }
+.q-table table { width:100%; border-collapse:collapse; font-size:0.85em; }
+.q-table th { background:#1e1e40; color:#8899ee; padding:9px 14px; text-align:center; border:1px solid #2a2a50; font-family:'Courier New',monospace; }
+.q-table td { padding:8px 14px; text-align:center; border:1px solid #2a2a50; color:#ccd6f6; }
+.q-table tr:nth-child(even) td { background:rgba(255,255,255,0.02); }
+
+/* OPTIONS (MCQ) */
+.options { display:grid; gap:10px; margin-bottom:14px; }
+.opt { background:#12122a; border:1.5px solid #2a2a50; border-radius:8px; padding:12px 18px; cursor:pointer; display:flex; align-items:center; gap:12px; font-size:0.93em; color:#ccd6f6; transition:all 0.2s; }
+.opt:hover { border-color:#5566aa; background:#1a1a3a; }
+.opt.selected { border-color:#7788dd; background:#1a1a40; }
+.opt.correct { border-color:#43e97b !important; background:rgba(67,233,123,0.08) !important; color:#43e97b !important; }
+.opt.wrong   { border-color:#e94560 !important; background:rgba(233,69,96,0.08) !important; color:#e94560 !important; }
+.opt-key { background:#2a2a50; color:#8899cc; border-radius:5px; padding:2px 9px; font-family:'Courier New',monospace; font-size:0.82em; flex-shrink:0; }
+.opt.correct .opt-key { background:rgba(67,233,123,0.2); color:#43e97b; }
+.opt.wrong   .opt-key { background:rgba(233,69,96,0.2); color:#e94560; }
+
+/* NUMERICAL INPUT */
+.num-input-wrap { display:flex; gap:10px; align-items:center; margin-bottom:14px; flex-wrap:wrap; }
+.num-input { background:#12122a; border:1.5px solid #2a2a50; border-radius:8px; padding:11px 16px; color:#fff; font-size:1em; font-family:'Courier New',monospace; width:200px; outline:none; transition:border-color 0.2s; }
+.num-input:focus { border-color:#7788dd; }
+.num-input.correct { border-color:#43e97b; }
+.num-input.wrong   { border-color:#e94560; }
+
+/* BUTTONS */
+.btn { padding:10px 24px; border-radius:8px; border:none; font-size:0.9em; cursor:pointer; font-family:Georgia,serif; font-weight:700; transition:all 0.2s; }
+.btn-check { background:#e94560; color:#fff; }
+.btn-check:hover { background:#c73050; }
+.btn-check:disabled { background:#555; cursor:not-allowed; }
+.btn-sol { background:transparent; border:1.5px solid #5566aa; color:#8899cc; font-size:0.83em; padding:8px 18px; }
+.btn-sol:hover { border-color:#7788dd; color:#ccd6f6; }
+.btn-next { background:#1971c2; color:#fff; }
+.btn-next:hover { background:#1560a0; }
+
+/* FEEDBACK */
+.feedback { border-radius:8px; padding:12px 16px; margin:12px 0; font-size:0.9em; display:none; }
+.feedback.show { display:block; }
+.feedback.ok   { background:rgba(67,233,123,0.08); border:1px solid rgba(67,233,123,0.3); color:#43e97b; }
+.feedback.bad  { background:rgba(233,69,96,0.08);  border:1px solid rgba(233,69,96,0.3);  color:#e94560; }
+.feedback.info { background:rgba(100,130,255,0.08); border:1px solid rgba(100,130,255,0.3); color:#8899ee; }
+
+/* SOLUTION BOX */
+.solution { background:#0d0d20; border:1px solid #2a2a50; border-radius:10px; padding:18px 20px; margin:14px 0; display:none; }
+.solution.show { display:block; }
+.solution h4 { color:#f7c948; margin-bottom:12px; font-size:0.9em; text-transform:uppercase; letter-spacing:1px; }
+.sol-step { background:#12122a; border-left:3px solid #e94560; border-radius:5px; padding:10px 14px; margin:8px 0; font-family:'Courier New',monospace; font-size:0.83em; color:#a0b0e0; white-space:pre-wrap; line-height:1.6; }
+.sol-ans { background:rgba(67,233,123,0.08); border:1px solid rgba(67,233,123,0.3); border-radius:7px; padding:10px 14px; margin-top:10px; color:#43e97b; font-weight:700; font-size:0.9em; }
+
+/* PROGRESS */
+.progress-wrap { background:#12122a; border-radius:30px; height:6px; margin:20px 0; overflow:hidden; }
+.progress-bar { background:linear-gradient(90deg,#e94560,#f7c948); height:100%; border-radius:30px; transition:width 0.4s; }
+
+/* FINAL SCREEN */
+.final { text-align:center; padding:50px 20px; display:none; }
+.final.show { display:block; }
+.final h2 { font-size:2em; color:#f7c948; margin-bottom:14px; }
+.final .big-score { font-size:4em; font-weight:900; color:#e94560; margin:20px 0; }
+.final p { color:#8899cc; margin-bottom:24px; }
+.grade { display:inline-block; background:#1a1a2e; border:2px solid #f7c948; border-radius:10px; padding:16px 30px; margin:10px; }
+.grade .gl { font-size:0.78em; color:#8899cc; text-transform:uppercase; }
+.grade .gv { font-size:1.5em; font-weight:700; color:#fff; }
+
+/* HINT */
+.hint { color:#f7c948; font-size:0.82em; margin-top:6px; }
+.hint::before { content:'💡 Hint: '; }
+
+/* CATEGORY HEADER */
+.cat-header { text-align:center; margin:30px 0 20px; }
+.cat-header h2 { font-size:1.4em; color:#fff; display:inline-flex; align-items:center; gap:10px; }
+.cat-label { background:#e94560; color:#fff; border-radius:20px; padding:3px 14px; font-size:0.7em; }
+
+@media(max-width:600px) { .hero h1{font-size:1.6em} .num-input{width:150px} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>OS Numericals <span>Practice</span></h1>
+  <p>All topics · Step-by-step solutions · Score tracking</p>
+  <div class="score-bar">
+    <div class="score-pill">Score: <span id="scoreVal">0</span> / <span id="totalVal">0</span></div>
+    <div class="score-pill">Attempted: <span id="attVal">0</span></div>
+    <div class="score-pill">Correct: <span id="corrVal">0</span></div>
+  </div>
+</div>
+
+<nav class="tabs" id="tabBar">
+  <div class="tab active" onclick="showTab('all')">All Topics</div>
+  <div class="tab" onclick="showTab('deadlock')">Deadlock</div>
+  <div class="tab" onclick="showTab('bankers')">Banker's</div>
+  <div class="tab" onclick="showTab('memory')">Memory Alloc</div>
+  <div class="tab" onclick="showTab('paging')">Paging</div>
+  <div class="tab" onclick="showTab('pagerep')">Page Replace</div>
+  <div class="tab" onclick="showTab('disk')">Disk Sched</div>
+</nav>
+
+<div class="main" id="mainArea"></div>
+
+<script>
+// ── GLOBAL STATE ──────────────────────────────
+let score = 0, attempted = 0, correct = 0;
+let answered = {}; // track which q's answered
+
+// ── QUESTIONS DATA ────────────────────────────
+const questions = [
+
+// ═══════════ DEADLOCK ═══════════
+{
+  id:'d1', cat:'deadlock', marks:2,
+  tag:'Deadlock Formula',
+  text:`Given 3 processes with maximum resource needs: P1 = 4, P2 = 3, P3 = 5.
+What is the <strong>minimum number of resource units</strong> that guarantees NO deadlock?`,
+  type:'mcq',
+  options:['9','10','8','11'],
+  answer:1, // index 0-based
+  hint:'Formula: Min for no deadlock = (Σxi - n) + 1',
+  solution:[
+    `n = 3 processes
+x1 = 4,  x2 = 3,  x3 = 5
+
+Step 1: Σxi = 4 + 3 + 5 = 12
+
+Step 2: Max ensuring DEADLOCK = Σxi - n = 12 - 3 = 9
+
+Step 3: Min ensuring NO DEADLOCK = 9 + 1 = 10`
+  ],
+  ans_text:'Minimum units for no deadlock = 10'
+},
+
+{
+  id:'d2', cat:'deadlock', marks:2,
+  tag:'Deadlock Formula',
+  text:`A system has 4 processes. Their maximum resource needs are: P1=3, P2=4, P3=5, P4=2.
+What is the <strong>maximum number of units</strong> that still ensures deadlock (worst case)?`,
+  type:'numerical',
+  answer:'10',
+  hint:'Formula: Max ensuring deadlock = Σxi - n',
+  solution:[
+    `n = 4,  Σxi = 3+4+5+2 = 14
+
+Max ensuring DEADLOCK = Σxi - n = 14 - 4 = 10
+
+Why? In worst case each process holds (xi-1) units:
+P1 holds 2, P2 holds 3, P3 holds 4, P4 holds 1
+Total held = 10. Each waits for 1 more → Circular wait!`
+  ],
+  ans_text:'Max units ensuring deadlock = 10'
+},
+
+{
+  id:'d3', cat:'deadlock', marks:2,
+  tag:'Deadlock Formula',
+  text:`There are 5 processes where each process needs a maximum of <strong>3 units</strong> of a resource.
+Find the minimum number of resource units needed to guarantee that the system is <strong>always deadlock-free</strong>.`,
+  type:'mcq',
+  options:['10','11','12','15'],
+  answer:1,
+  hint:'Same formula: min = (Σxi - n) + 1. All xi = 3, n = 5.',
+  solution:[
+    `n = 5 processes
+Each needs max 3 units → xi = 3 for all
+Σxi = 3 × 5 = 15
+
+Max ensuring DEADLOCK  = 15 - 5 = 10
+Min ensuring NO deadlock = 10 + 1 = 11`
+  ],
+  ans_text:'11 units guarantee no deadlock'
+},
+
+// ═══════════ BANKER'S ═══════════
+{
+  id:'b1', cat:'bankers', marks:5,
+  tag:"Banker's — Find Available",
+  text:`A system has 3 resource types. Total resources = [9, 3, 6].
+The current Allocation matrix is:
+<div class="q-table"><table>
+<tr><th>Process</th><th>A</th><th>B</th><th>C</th></tr>
+<tr><td>P0</td><td>3</td><td>0</td><td>1</td></tr>
+<tr><td>P1</td><td>2</td><td>1</td><td>1</td></tr>
+<tr><td>P2</td><td>3</td><td>1</td><td>2</td></tr>
+</table></div>
+What is the <strong>Available</strong> vector [A, B, C]?`,
+  type:'mcq',
+  options:['[1, 1, 2]','[2, 1, 3]','[1, 1, 3]','[0, 1, 2]'],
+  answer:0,
+  hint:'Available = Total - Sum of all Allocations',
+  solution:[
+    `Total resources = [9, 3, 6]
+
+Sum of Allocations:
+  A: 3+2+3 = 8
+  B: 0+1+1 = 2
+  C: 1+1+2 = 4
+
+Available = Total - Allocated
+  A: 9 - 8 = 1
+  B: 3 - 2 = 1
+  C: 6 - 4 = 2`
+  ],
+  ans_text:'Available = [1, 1, 2]'
+},
+
+{
+  id:'b2', cat:'bankers', marks:5,
+  tag:"Banker's — Need Matrix",
+  text:`Given the following Max and Allocation matrices:
+<div class="q-table"><table>
+<tr><th>Process</th><th>Max A</th><th>Max B</th><th>Max C</th><th>Alloc A</th><th>Alloc B</th><th>Alloc C</th></tr>
+<tr><td>P0</td><td>7</td><td>5</td><td>3</td><td>0</td><td>1</td><td>0</td></tr>
+<tr><td>P1</td><td>3</td><td>2</td><td>2</td><td>2</td><td>0</td><td>0</td></tr>
+<tr><td>P2</td><td>9</td><td>0</td><td>2</td><td>3</td><td>0</td><td>2</td></tr>
+</table></div>
+What is the <strong>Need</strong> of P2?`,
+  type:'mcq',
+  options:['[6, 0, 0]','[7, 5, 3]','[3, 0, 2]','[6, 1, 0]'],
+  answer:0,
+  hint:'Need = Max - Allocation for each resource',
+  solution:[
+    `Need = Max - Allocation
+
+P2:  Max = [9, 0, 2]
+     Alloc= [3, 0, 2]
+
+Need[P2] = [9-3, 0-0, 2-2]
+          = [6, 0, 0]`
+  ],
+  ans_text:'Need of P2 = [6, 0, 0]'
+},
+
+{
+  id:'b3', cat:'bankers', marks:5,
+  tag:"Banker's — Safe Sequence",
+  text:`Using the Banker's Algorithm with Available = [3, 3, 2] and the Need matrix below, which process can run <strong>first</strong> in a safe sequence?
+<div class="q-table"><table>
+<tr><th>Process</th><th>Need A</th><th>Need B</th><th>Need C</th></tr>
+<tr><td>P0</td><td>7</td><td>4</td><td>3</td></tr>
+<tr><td>P1</td><td>1</td><td>2</td><td>2</td></tr>
+<tr><td>P2</td><td>6</td><td>0</td><td>0</td></tr>
+<tr><td>P3</td><td>0</td><td>1</td><td>1</td></tr>
+<tr><td>P4</td><td>4</td><td>3</td><td>1</td></tr>
+</table></div>`,
+  type:'mcq',
+  options:['P0 (Need [7,4,3])','P1 (Need [1,2,2])','P2 (Need [6,0,0])','P3 (Need [0,1,1])'],
+  answer:3,
+  hint:'Find the process whose Need ≤ Available [3,3,2]',
+  solution:[
+    `Available = [3, 3, 2]
+
+Check each process: Need ≤ Available?
+
+P0: [7,4,3] ≤ [3,3,2]? → 7>3 ✗ NO
+P1: [1,2,2] ≤ [3,3,2]? → 1≤3, 2≤3, 2≤2 ✓ YES
+P2: [6,0,0] ≤ [3,3,2]? → 6>3 ✗ NO
+P3: [0,1,1] ≤ [3,3,2]? → 0≤3, 1≤3, 1≤2 ✓ YES
+
+Both P1 and P3 qualify. P3 runs first (smallest need).
+Actually P1 also qualifies. Multiple correct start points.
+P3 is first: Need [0,1,1] ≤ [3,3,2] ✓`
+  ],
+  ans_text:'P3 (Need [0,1,1] ≤ Available [3,3,2] ✓)'
+},
+
+{
+  id:'b4', cat:'bankers', marks:5,
+  tag:"Banker's — Full Safe Sequence",
+  text:`System: Resources X=5, Y=5, Z=5. Allocation and Request matrices:
+<div class="q-table"><table>
+<tr><th>Process</th><th>Alloc X</th><th>Alloc Y</th><th>Alloc Z</th><th>Request X</th><th>Request Y</th><th>Request Z</th></tr>
+<tr><td>P0</td><td>1</td><td>2</td><td>1</td><td>1</td><td>0</td><td>3</td></tr>
+<tr><td>P1</td><td>2</td><td>0</td><td>1</td><td>0</td><td>1</td><td>2</td></tr>
+<tr><td>P2</td><td>2</td><td>2</td><td>1</td><td>1</td><td>2</td><td>0</td></tr>
+</table></div>
+Which process finishes <strong>last</strong> in the safe sequence?`,
+  type:'mcq',
+  options:['P0','P1','P2','System is in deadlock'],
+  answer:2,
+  hint:'Calculate Available = [5,5,5] - total_alloc, then run safety algorithm.',
+  solution:[
+    `Step 1: Calculate Available
+  Total = [5,5,5]
+  Total Alloc = [1+2+2, 2+0+2, 1+1+1] = [5, 4, 3]
+  Available = [5-5, 5-4, 5-3] = [0, 1, 2]
+
+Step 2: Safety Algorithm
+  Work = [0,1,2]
+
+  P1: Request [0,1,2] ≤ Work [0,1,2]? ✓
+    Work = [0,1,2] + [2,0,1] = [2,1,3]
+
+  P0: Request [1,0,3] ≤ Work [2,1,3]? ✓
+    Work = [2,1,3] + [1,2,1] = [3,3,4]
+
+  P2: Request [1,2,0] ≤ Work [3,3,4]? ✓
+    Work = [3,3,4] + [2,2,1] = [5,5,5]
+
+Safe Sequence: P1 → P0 → P2`
+  ],
+  ans_text:'P2 finishes LAST. Safe sequence: P1 → P0 → P2'
+},
+
+{
+  id:'b5', cat:'bankers', marks:5,
+  tag:"Banker's — Request Validation",
+  text:`Available = [3, 2, 2]. Need matrix is shown.
+<div class="q-table"><table>
+<tr><th>Process</th><th>Need A</th><th>Need B</th><th>Need C</th></tr>
+<tr><td>P0</td><td>8</td><td>4</td><td>2</td></tr>
+<tr><td>P1</td><td>3</td><td>0</td><td>0</td></tr>
+<tr><td>P2</td><td>1</td><td>2</td><td>2</td></tr>
+</table></div>
+P1 makes request <strong>[2, 0, 0]</strong>. Should this be <strong>granted</strong>?`,
+  type:'mcq',
+  options:['Yes — request ≤ Need and ≤ Available, results in safe state','No — request exceeds Need of P1','No — insufficient Available resources','Yes — but only after rollback'],
+  answer:0,
+  hint:'Check: Request ≤ Need? AND Request ≤ Available? Then run safety algorithm.',
+  solution:[
+    `Step 1: Is Request ≤ Need[P1]?
+  Request [2,0,0] ≤ Need[P1] [3,0,0]? ✓
+
+Step 2: Is Request ≤ Available?
+  Request [2,0,0] ≤ Available [3,2,2]? ✓
+
+Step 3: Pretend to allocate:
+  Available = [3,2,2] - [2,0,0] = [1,2,2]
+  P1's Alloc += [2,0,0], Need[P1] = [1,0,0]
+
+Step 4: Safety check with Work=[1,2,2]:
+  P1: Need[1,0,0] ≤ [1,2,2] ✓  Work=[1,2,2]+P1_alloc=[4,2,2]
+  P2: Need[1,2,2] ≤ [4,2,2] ✓  Work=[6,4,3] (approx)
+  P0: Need[8,4,2] - check... ✓  Safe!
+
+Safe sequence exists → GRANT request ✓`
+  ],
+  ans_text:'Request is GRANTED — results in safe state ✓'
+},
+
+// ═══════════ MEMORY ALLOCATION ═══════════
+{
+  id:'m1', cat:'memory', marks:2,
+  tag:'First Fit Algorithm',
+  text:`Memory partitions (in order): <strong>100KB, 500KB, 200KB, 300KB, 600KB</strong>
+A process of size <strong>212KB</strong> arrives. Using <strong>First Fit</strong>, which partition gets allocated?`,
+  type:'mcq',
+  options:['100KB partition','500KB partition','200KB partition','300KB partition'],
+  answer:1,
+  hint:'First Fit: scan from start, use FIRST partition that is large enough.',
+  solution:[
+    `Partitions in order: 100KB, 500KB, 200KB, 300KB, 600KB
+Process size: 212KB
+
+Scan from beginning:
+  100KB: 100 < 212 ✗  (too small)
+  500KB: 500 ≥ 212 ✓  (FIRST sufficient partition!)
+
+→ Allocate to 500KB partition
+  Used: 212KB
+  Leftover: 500 - 212 = 288KB`
+  ],
+  ans_text:'500KB partition is allocated (first sufficient hole found)'
+},
+
+{
+  id:'m2', cat:'memory', marks:2,
+  tag:'Best Fit Algorithm',
+  text:`Memory holes available: <strong>100KB, 500KB, 200KB, 300KB, 600KB</strong>
+Process size = <strong>212KB</strong>. Using <strong>Best Fit</strong>, which partition is chosen?`,
+  type:'mcq',
+  options:['500KB','200KB','300KB','600KB'],
+  answer:2,
+  hint:'Best Fit: search ALL partitions, pick the SMALLEST one that is still large enough.',
+  solution:[
+    `Available holes: 100KB, 500KB, 200KB, 300KB, 600KB
+Process: 212KB
+
+Search ALL holes for smallest that fits 212KB:
+  100KB: 100 < 212 ✗
+  500KB: 500 ≥ 212 ✓ (candidate, leftover = 288)
+  200KB: 200 < 212 ✗
+  300KB: 300 ≥ 212 ✓ (candidate, leftover = 88) ← SMALLEST leftover!
+  600KB: 600 ≥ 212 ✓ (candidate, leftover = 388)
+
+Best Fit → 300KB (leftover = 88KB, minimum wasted space)`
+  ],
+  ans_text:'300KB partition — smallest hole that still fits the process'
+},
+
+{
+  id:'m3', cat:'memory', marks:2,
+  tag:'Worst Fit Algorithm',
+  text:`Holes: <strong>100KB, 500KB, 200KB, 300KB, 600KB</strong>
+Process = <strong>212KB</strong>. <strong>Worst Fit</strong> allocates to which partition?`,
+  type:'mcq',
+  options:['300KB','500KB','600KB','200KB'],
+  answer:2,
+  hint:'Worst Fit: pick the LARGEST available hole.',
+  solution:[
+    `Available holes: 100KB, 500KB, 200KB, 300KB, 600KB
+Process: 212KB
+
+Search ALL holes for largest that fits 212KB:
+  100KB: too small ✗
+  500KB: fits ✓
+  200KB: too small ✗
+  300KB: fits ✓
+  600KB: fits ✓  ← LARGEST!
+
+Worst Fit → 600KB partition
+  Used: 212KB
+  Leftover: 600 - 212 = 388KB (biggest leftover)`
+  ],
+  ans_text:'600KB partition — the largest available hole'
+},
+
+{
+  id:'m4', cat:'memory', marks:2,
+  tag:'Address Space Calculation',
+  text:`Physical address space = <strong>64KB</strong>. Word size = <strong>4 bytes</strong>.
+How many <strong>bits</strong> are required for a physical address?`,
+  type:'numerical',
+  answer:'14',
+  hint:'Convert to words first, then address_bits = log₂(space_in_words)',
+  solution:[
+    `Physical address space = 64KB = 2^16 bytes
+Word size = 4 bytes = 2^2 bytes
+
+Space in words = 2^16 / 2^2 = 2^14 words
+
+Physical address size = log₂(2^14) = 14 bits`
+  ],
+  ans_text:'14 bits needed for physical address'
+},
+
+{
+  id:'m5', cat:'memory', marks:2,
+  tag:'Fragmentation MCQ',
+  text:`Requests arrive in order: 300K, 25K, 125K, 50K.
+Available memory blocks: one block of <strong>150K</strong> followed by one block of <strong>350K</strong>.
+Which allocation scheme(s) can satisfy ALL 4 requests?`,
+  type:'mcq',
+  options:['Both First Fit and Best Fit','Only First Fit (not Best Fit)','Only Best Fit (not First Fit)','Neither First Fit nor Best Fit'],
+  answer:1,
+  hint:'Try both algorithms manually. Watch what happens to 50K request at the end.',
+  solution:[
+    `Blocks: [150K, 350K]
+
+BEST FIT:
+  300K → 350K (best: leftover 50K)  → Blocks: [150K, 50K]
+  25K  → 50K  (best: leftover 25K)  → Blocks: [150K, 25K]
+  125K → 150K (best: leftover 25K)  → Blocks: [25K, 25K]
+  50K  → needs 50K. Available: 25K + 25K = 50K but NOT contiguous!
+  BEST FIT FAILS ✗
+
+FIRST FIT:
+  300K → 350K (first fit, leftover 50K)   → [150K, 50K]
+  25K  → 150K (first fit, leftover 125K)  → [125K, 50K]
+  125K → 125K (first fit, exact)          → [50K]
+  50K  → 50K  (fits exactly!) ✓
+  FIRST FIT SUCCEEDS ✓`
+  ],
+  ans_text:'Only First Fit satisfies all 4 requests'
+},
+
+// ═══════════ PAGING ═══════════
+{
+  id:'p1', cat:'paging', marks:2,
+  tag:'Logical Address Bits',
+  text:`A system has a logical address space of <strong>4K pages</strong> each of size <strong>512 bytes</strong>.
+How many <strong>bits</strong> does a logical address require?`,
+  type:'numerical',
+  answer:'21',
+  hint:'Logical address bits = bits for page number + bits for offset',
+  solution:[
+    `Number of pages = 4K = 4 × 2^10 = 2^12
+→ Page number requires 12 bits
+
+Page size = 512 bytes = 2^9 bytes
+→ Page offset requires 9 bits
+
+Total logical address bits = 12 + 9 = 21 bits`
+  ],
+  ans_text:'21 bits required for logical address'
+},
+
+{
+  id:'p2', cat:'paging', marks:2,
+  tag:'Page Number & Offset',
+  text:`Page size = <strong>1KB = 1024 bytes</strong>.
+Logical address = <strong>3000</strong>.
+What is the <strong>Page Number</strong>?`,
+  type:'mcq',
+  options:['2','3','1','4'],
+  answer:0,
+  hint:'Page Number = Logical Address ÷ Page Size (integer division)',
+  solution:[
+    `Page size = 1KB = 1024 bytes
+Logical address = 3000
+
+Page Number = 3000 ÷ 1024 = 2  (integer division: 2×1024=2048, 3×1024=3072>3000)
+Page Offset  = 3000 mod 1024 = 3000 - 2048 = 952
+
+So: Page 2, Offset 952`
+  ],
+  ans_text:'Page Number = 2 (3000 ÷ 1024 = 2 with remainder 952)'
+},
+
+{
+  id:'p3', cat:'paging', marks:2,
+  tag:'Physical Address Calculation',
+  text:`Page size = <strong>100 bytes</strong>. Page table:
+<div class="q-table"><table>
+<tr><th>Page #</th><th>Frame #</th></tr>
+<tr><td>0</td><td>5</td></tr>
+<tr><td>1</td><td>3</td></tr>
+<tr><td>2</td><td>8</td></tr>
+</table></div>
+Logical address = <strong>250</strong>. What is the <strong>Physical Address</strong>?`,
+  type:'numerical',
+  answer:'350',
+  hint:'Step 1: Find page number and offset. Step 2: Look up frame in table. Step 3: Physical = Frame × Page_size + Offset.',
+  solution:[
+    `Page size = 100 bytes
+Logical address = 250
+
+Page Number = 250 ÷ 100 = 2
+Page Offset  = 250 mod 100 = 50
+
+From page table: Page 2 → Frame 8
+
+Physical Address = Frame × Page_size + Offset
+                 = 8 × 100 + 50
+                 = 800 + 50
+                 = 850`
+  ],
+  ans_text:'Physical Address = 850'
+},
+
+{
+  id:'p3b', cat:'paging', marks:2,
+  tag:'Physical Address Calculation',
+  text:`Page size = <strong>100 bytes</strong>. Same page table as previous question (Page 0→Frame 5, Page 1→Frame 3, Page 2→Frame 8).
+Logical address = <strong>350</strong>. What is the <strong>Physical Address</strong>?`,
+  type:'numerical',
+  answer:'350',
+  hint:'Page Number = 350÷100 = 3. But wait — is page 3 in the table?',
+  solution:[
+    `Page size = 100 bytes
+Logical address = 350
+
+Page Number = 350 ÷ 100 = 3
+Page Offset  = 350 mod 100 = 50
+
+From page table: Page 3 → NOT in table! (only 0,1,2 defined)
+
+→ PAGE FAULT generated! OS must load page 3 from disk.
+
+IF page 3 maps to frame 4 (for example):
+Physical Address = 4 × 100 + 50 = 450`
+  ],
+  ans_text:'Page Fault! Page 3 is not in the page table (not in memory)'
+},
+
+{
+  id:'p4', cat:'paging', marks:2,
+  tag:'Page Bits Formula',
+  text:`Logical address space = <strong>2^32 bytes</strong>. Page size = <strong>2^12 bytes (4KB)</strong>.
+How many bits are used for the <strong>page number</strong>?`,
+  type:'numerical',
+  answer:'20',
+  hint:'Page number bits = m - n (where m = total addr bits, n = offset bits)',
+  solution:[
+    `Logical address space = 2^32 bytes → m = 32 bits total
+Page size = 2^12 bytes → n = 12 bits for offset
+
+Page number bits = m - n = 32 - 12 = 20 bits
+
+This means: 2^20 = ~1 million pages in the logical address space
+(This is why page tables can be very large!)`
+  ],
+  ans_text:'20 bits for page number (32 - 12 = 20)'
+},
+
+// ═══════════ PAGE REPLACEMENT ═══════════
+{
+  id:'pr1', cat:'pagerep', marks:5,
+  tag:'FIFO Page Replacement',
+  text:`Reference string: <strong>1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5</strong>
+Number of frames = <strong>3</strong>. Using <strong>FIFO</strong>, how many page faults occur?`,
+  type:'numerical',
+  answer:'9',
+  hint:'In FIFO, always replace the page that came in FIRST (oldest page). Track the queue order.',
+  solution:[
+    `Frames = 3, FIFO. (* = page fault)
+
+Ref:  1  2  3  4  1  2  5  1  2  3  4  5
+F1:   1  1  1  4  4  4  5  5  5  5  4  4
+F2:      2  2  2  1  1  1  1  1  1  1  5
+F3:         3  3  3  2  2  2  2  2  2  2
+PF:   *  *  *  *  *  *  *           *  *
+
+Page Faults: Refs 1,2,3,4,1,2,5 cause faults (7) + ref 4,5 cause faults (+2) = 9
+
+Total FIFO Page Faults = 9`
+  ],
+  ans_text:'9 page faults with FIFO (3 frames)'
+},
+
+{
+  id:'pr2', cat:'pagerep', marks:5,
+  tag:'LRU Page Replacement',
+  text:`Reference string: <strong>7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2</strong>
+Number of frames = <strong>4</strong>. Using <strong>LRU</strong>, how many page faults occur?`,
+  type:'mcq',
+  options:['4','5','6','8'],
+  answer:2,
+  hint:'In LRU, replace the page that was NOT USED for the longest time in the past.',
+  solution:[
+    `Frames = 4, LRU (* = fault)
+
+Ref:  7   0   1   2   0   3   0   4   2   3   0   3   2
+F1:   7   7   7   7   7   7   7   4   4   4   4   4   4
+F2:       0   0   0   0   0   0   0   0   0   0   0   0
+F3:           1   1   1   1   1   1   2   2   2   2   2
+F4:               2   2   3   3   3   3   3   3   3   3
+PF:   *   *   *   *       *           *           
+
+Wait, let me recount carefully...
+Faults at: 7,0,1,2 (first 4 fill frames = 4 faults)
+  0: already in frame → no fault
+  3: replace LRU=7 → fault (5th)
+  0: already in frame → no fault
+  4: replace LRU=1 → fault (6th)
+  2: already in frame → no fault
+  3: already in frame → no fault
+  0: already in frame → no fault
+  3: already in frame → no fault
+  2: already in frame → no fault
+
+Total LRU Page Faults = 6`
+  ],
+  ans_text:'6 page faults with LRU (4 frames)'
+},
+
+{
+  id:'pr3', cat:'pagerep', marks:2,
+  tag:"Belady's Anomaly",
+  text:`Which page replacement algorithm can suffer from <strong>Belady's Anomaly</strong> — where increasing the number of frames can actually INCREASE the number of page faults?`,
+  type:'mcq',
+  options:['LRU (Least Recently Used)','Optimal Page Replacement','FIFO (First In First Out)','All of the above'],
+  answer:2,
+  hint:"Belady's Anomaly is a well-known flaw of one specific algorithm.",
+  solution:[
+    `Belady's Anomaly occurs in FIFO ONLY.
+
+Reason: FIFO does not use any "intelligence" about which
+pages are frequently or recently used. It blindly removes
+the oldest page, which can sometimes be a page that will
+be needed again very soon.
+
+LRU and Optimal are "stack algorithms" — they are 
+guaranteed to never suffer Belady's Anomaly.
+
+Example: Reference string 1,2,3,4,1,2,5,1,2,3,4,5
+  3 frames → 9 faults (FIFO)
+  4 frames → 10 faults (FIFO)  ← MORE faults with more frames!`
+  ],
+  ans_text:"FIFO suffers Belady's Anomaly. LRU and Optimal do NOT."
+},
+
+{
+  id:'pr4', cat:'pagerep', marks:2,
+  tag:'Optimal Page Replacement',
+  text:`Reference string: <strong>1, 2, 3, 1, 4, 1, 2, 3, 4, 1</strong>
+Frames = <strong>3</strong>. Using <strong>Optimal</strong> replacement, how many page faults occur?`,
+  type:'mcq',
+  options:['4','5','6','3'],
+  answer:1,
+  hint:'Optimal: replace the page that will NOT be used for the LONGEST time in the future.',
+  solution:[
+    `Frames = 3, Optimal
+
+Ref:  1  2  3  1  4  1  2  3  4  1
+F1:   1  1  1  1  1  1  1  1  1  1
+F2:      2  2  2  4  4  4  4  4  4 (at ref 4: replace page used furthest future)
+F3:         3  3  3  3  3  3  3  3
+PF:   *  *  *     *
+
+Step by step:
+  1: fault → [1]
+  2: fault → [1,2]
+  3: fault → [1,2,3]
+  1: hit   → [1,2,3]
+  4: fault → Replace page with longest future non-use.
+     Future of 2: position 7. Future of 3: position 8. Future of 1: position 6.
+     → Replace 3 (farthest at pos 8)? Or 2?
+     Actually: 1 used at pos 6, 2 used at pos 7, 3 used at pos 8
+     → Replace 3 (used farthest). But 3 is used at pos 8, 2 at 7.
+     Let's track: frames = [1,2,4] after this fault (#4)
+  
+  Then 1,2,3,4,1 → hits and one more fault
+  
+Total: 5 page faults (Optimal gives minimum faults)`
+  ],
+  ans_text:'5 page faults with Optimal (3 frames)'
+},
+
+// ═══════════ DISK SCHEDULING ═══════════
+{
+  id:'ds1', cat:'disk', marks:2,
+  tag:'FCFS Seek Distance',
+  text:`Disk head starts at cylinder <strong>53</strong>.
+Request queue: <strong>98, 183, 37, 122, 14, 124, 65, 67</strong>
+Using <strong>FCFS</strong>, what is the total seek distance (in cylinders)?`,
+  type:'numerical',
+  answer:'640',
+  hint:'FCFS: serve requests in the EXACT order they appear in the queue. Sum all head movements.',
+  solution:[
+    `FCFS order: 53 → 98 → 183 → 37 → 122 → 14 → 124 → 65 → 67
+
+Movements:
+  53 → 98  : |98-53|  = 45
+  98 → 183 : |183-98| = 85
+  183 → 37 : |183-37| = 146
+  37 → 122 : |122-37| = 85
+  122 → 14 : |122-14| = 108
+  14 → 124 : |124-14| = 110
+  124 → 65 : |124-65| = 59
+  65 → 67  : |67-65|  = 2
+
+Total = 45+85+146+85+108+110+59+2 = 640 cylinders`
+  ],
+  ans_text:'640 cylinders total seek distance (FCFS)'
+},
+
+{
+  id:'ds2', cat:'disk', marks:2,
+  tag:'SSTF Seek Distance',
+  text:`Head starts at <strong>53</strong>. Queue: <strong>98, 183, 37, 122, 14, 124, 65, 67</strong>
+Using <strong>SSTF</strong>, what is the order of service? (First 3 cylinders visited)`,
+  type:'mcq',
+  options:['53 → 37 → 14 → 65','53 → 65 → 67 → 37','53 → 67 → 65 → 37','53 → 98 → 122 → 124'],
+  answer:1,
+  hint:'SSTF: from current position, always go to the NEAREST unserved cylinder.',
+  solution:[
+    `Head at 53. Find nearest in queue {98,183,37,122,14,124,65,67}:
+
+From 53: distances
+  |98-53|=45, |183-53|=130, |37-53|=16,
+  |122-53|=69, |14-53|=39, |124-53|=71,
+  |65-53|=12 ← NEAREST!, |67-53|=14
+
+Step 1: 53 → 65 (dist=12)
+
+From 65: remaining {98,183,37,122,14,124,67}
+  |67-65|=2 ← NEAREST
+
+Step 2: 65 → 67 (dist=2)
+
+From 67: remaining {98,183,37,122,14,124}
+  |37-67|=30, |98-67|=31, |122-67|=55...
+  37 is nearest (dist=30)? Wait: |98-67|=31, |37-67|=30
+
+Step 3: 67 → 37 (dist=30)
+
+First 3 visits: 65, 67, 37 → Path: 53→65→67→37`
+  ],
+  ans_text:'53 → 65 → 67 → 37 (always move to nearest cylinder)'
+},
+
+{
+  id:'ds3', cat:'disk', marks:2,
+  tag:'SSTF Total Distance',
+  text:`Head = <strong>53</strong>. Queue: <strong>98, 183, 37, 122, 14, 124, 65, 67</strong>
+Complete SSTF path is: 53→65→67→37→14→98→122→124→183.
+What is the <strong>total seek distance</strong>?`,
+  type:'numerical',
+  answer:'236',
+  hint:'Add up each individual movement along the path.',
+  solution:[
+    `Path: 53 → 65 → 67 → 37 → 14 → 98 → 122 → 124 → 183
+
+  53→65  : 12
+  65→67  : 2
+  67→37  : 30
+  37→14  : 23
+  14→98  : 84
+  98→122 : 24
+  122→124: 2
+  124→183: 59
+
+Total = 12+2+30+23+84+24+2+59 = 236 cylinders`
+  ],
+  ans_text:'236 cylinders (much better than FCFS\'s 640!)'
+},
+
+{
+  id:'ds4', cat:'disk', marks:2,
+  tag:'SCAN Algorithm',
+  text:`Head starts at <strong>53</strong>, moving toward <strong>higher cylinders</strong>. Queue: <strong>98, 183, 37, 122, 14, 124, 65, 67</strong>. Disk range: 0–199.
+Using <strong>SCAN</strong>, which cylinder is reached at the <strong>turning point</strong>?`,
+  type:'mcq',
+  options:['183','199','124','98'],
+  answer:1,
+  hint:'SCAN goes to the END of the disk (not just the last request) before reversing.',
+  solution:[
+    `SCAN starts at 53, moving RIGHT (toward 199).
+
+Serve all requests in path from 53 going right:
+  65, 67, 98, 122, 124, 183 → then reaches disk END at 199
+
+Turning point = 199 (end of disk)
+
+Then moves LEFT:
+  37, 14
+
+Full path: 53→65→67→98→122→124→183→199→37→14
+
+Note: SCAN goes ALL THE WAY to cylinder 199 even though
+the last request is at 183. This is the difference from C-LOOK!`
+  ],
+  ans_text:'Turning point = 199 (end of disk). SCAN always goes to disk end.'
+},
+
+{
+  id:'ds5', cat:'disk', marks:2,
+  tag:'C-LOOK vs C-SCAN',
+  text:`Head = <strong>53</strong> moving right. Queue: <strong>98, 183, 37, 122, 14, 124, 65, 67</strong>.
+What is the FIRST cylinder visited after the head <strong>jumps back</strong> in <strong>C-LOOK</strong>?`,
+  type:'mcq',
+  options:['Cylinder 0','Cylinder 14','Cylinder 37','Cylinder 53'],
+  answer:1,
+  hint:'C-LOOK jumps to the FIRST (smallest) request in the remaining queue, not to cylinder 0.',
+  solution:[
+    `C-LOOK: head moves RIGHT, serves all requests in that direction
+up to the LAST request (183), then JUMPS to the FIRST (smallest)
+remaining request — NOT to cylinder 0.
+
+Right path: 53→65→67→98→122→124→183 (last request in right dir)
+
+Remaining requests going left: 37, 14
+Smallest remaining = 14
+
+JUMP to 14 (not to 0!)
+
+Then: 14→37
+
+Full C-LOOK path: 53→65→67→98→122→124→183→JUMP→14→37
+
+vs C-SCAN path:   53→65→67→98→122→124→183→199→JUMP→0→14→37
+(C-SCAN goes to disk end 199, then jumps to 0, wastes movement!)`
+  ],
+  ans_text:'Cylinder 14 — C-LOOK jumps to smallest remaining request (not cylinder 0)'
+},
+
+{
+  id:'ds6', cat:'disk', marks:2,
+  tag:'Algorithm Comparison',
+  text:`Which disk scheduling algorithm can cause <strong>starvation</strong> for requests at far ends of the disk?`,
+  type:'mcq',
+  options:['FCFS','SSTF','SCAN','C-LOOK'],
+  answer:1,
+  hint:'Think about which algorithm is "selfish" and always picks the nearest request.',
+  solution:[
+    `SSTF (Shortest Seek Time First) can cause STARVATION.
+
+Why? SSTF always serves the NEAREST request first.
+
+Example: If the head is around cylinder 50-100 and there
+are always new requests in that range, the requests at
+cylinders 14 or 183 may NEVER get served — they keep
+getting skipped in favor of closer requests.
+
+FCFS: No starvation (served in order)
+SCAN: No starvation (head sweeps whole disk)
+C-SCAN: No starvation (uniform service)
+C-LOOK: No starvation (complete sweeps)
+
+Only SSTF can starve distant requests!`
+  ],
+  ans_text:'SSTF — always picks nearest cylinder, distant requests may starve'
+},
+
+{
+  id:'ds7', cat:'disk', marks:2,
+  tag:'Disk Access Time',
+  text:`A disk has: Seek time = <strong>8ms</strong>, Rotational speed = <strong>6000 RPM</strong>, Transfer rate = <strong>1ms</strong>.
+What is the <strong>average rotational latency</strong>?`,
+  type:'mcq',
+  options:['5ms','10ms','8ms','2ms'],
+  answer:0,
+  hint:'Average rotational latency = (1/2) × time for one full rotation. Find time per rotation from RPM.',
+  solution:[
+    `Rotational speed = 6000 RPM (rotations per minute)
+
+Time for one full rotation:
+  = 60,000 ms / 6000 RPM = 10 ms per rotation
+
+Average rotational latency:
+  = (1/2) × 10 ms = 5 ms
+  (On average, you wait for HALF a rotation)
+
+Total disk access time:
+  = Seek + Rotational + Transfer
+  = 8ms + 5ms + 1ms
+  = 14ms`
+  ],
+  ans_text:'Average rotational latency = 5ms (half of one full rotation = 10ms/2)'
+}
+];
+
+// ── FILTER & RENDER ───────────────────────────
+let currentTab = 'all';
+
+function showTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  render();
+}
+
+function getFiltered() {
+  if (currentTab==='all') return questions;
+  return questions.filter(q=>q.cat===currentTab);
+}
+
+function render() {
+  const qs = getFiltered();
+  const area = document.getElementById('mainArea');
+
+  if (!qs.length) { area.innerHTML='<p style="color:#888;text-align:center;padding:40px">No questions in this category yet.</p>'; return; }
+
+  let html = `<div class="progress-wrap"><div class="progress-bar" id="pbar" style="width:0%"></div></div>`;
+
+  // Category headers
+  const cats = {deadlock:'💀 Deadlock',bankers:"🏦 Banker's Algorithm",memory:'📦 Memory Allocation',paging:'📄 Paging',pagerep:'🔄 Page Replacement',disk:'💿 Disk Scheduling'};
+  let lastCat = null;
+
+  qs.forEach((q,i)=>{
+    if (q.cat!==lastCat) {
+      if (currentTab==='all') html+=`<div class="cat-header"><h2>${cats[q.cat]} <span class="cat-label">${q.cat.toUpperCase()}</span></h2></div>`;
+      lastCat=q.cat;
+    }
+
+    const isAnswered = answered[q.id]!==undefined;
+    const isCorrect  = answered[q.id]===true;
+
+    html += `<div class="q-card" id="card_${q.id}">
+      <div class="q-head">
+        <span class="q-num">Q${i+1}</span>
+        <span class="q-tag">${q.tag}</span>
+        <span class="q-marks">${q.marks} marks</span>
+      </div>
+      <div class="q-body">
+        <div class="q-text">${q.text}</div>`;
+
+    if (q.hint) html+=`<div class="hint">${q.hint}</div>`;
+
+    // OPTIONS OR INPUT
+    if (q.type==='mcq') {
+      html+=`<div class="options" id="opts_${q.id}">`;
+      const keys=['A','B','C','D'];
+      q.options.forEach((opt,j)=>{
+        let cls='opt'; let extra='';
+        if (isAnswered) {
+          if (j===q.answer) cls+=' correct';
+          else if (answered[`${q.id}_sel`]===j && j!==q.answer) cls+=' wrong';
+        }
+        html+=`<div class="${cls}" data-qid="${q.id}" data-idx="${j}" onclick="selectOpt(this,'${q.id}',${j},${q.answer})">
+          <span class="opt-key">${keys[j]}</span>${opt}</div>`;
+      });
+      html+=`</div>`;
+    } else {
+      // numerical
+      const inputCls = isAnswered ? (isCorrect?'num-input correct':'num-input wrong') : 'num-input';
+      const val = isAnswered ? (answered[`${q.id}_val`]||'') : '';
+      html+=`<div class="num-input-wrap">
+        <input class="${inputCls}" type="text" id="inp_${q.id}" placeholder="Enter your answer..." value="${val}" ${isAnswered?'disabled':''}/>
+        ${!isAnswered?`<button class="btn btn-check" onclick="checkNum('${q.id}','${q.answer}')">Check</button>`:''}
+      </div>`;
+    }
+
+    // Feedback
+    let fbCls='feedback', fbTxt='';
+    if (isAnswered) {
+      fbCls += isCorrect?' ok show':' bad show';
+      fbTxt = isCorrect ? '✅ Correct! Well done!' : `❌ Incorrect. The correct answer is: <strong>${q.ans_text}</strong>`;
+    }
+    html+=`<div class="${fbCls}" id="fb_${q.id}">${fbTxt}</div>`;
+
+    // Solution
+    html+=`<div class="solution${isAnswered?' show':''}" id="sol_${q.id}">
+      <h4>📋 Step-by-Step Solution</h4>`;
+    q.solution.forEach(s=>{html+=`<div class="sol-step">${s}</div>`;});
+    html+=`<div class="sol-ans">✅ Answer: ${q.ans_text}</div></div>`;
+
+    // Buttons
+    html+=`<div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">`;
+    if (!isAnswered && q.type==='mcq') html+=`<button class="btn btn-check" id="chkbtn_${q.id}" onclick="checkMCQ('${q.id}',${q.answer})" disabled>Check Answer</button>`;
+    html+=`<button class="btn btn-sol" onclick="toggleSol('${q.id}')">Show/Hide Solution</button>`;
+    html+=`</div>`;
+
+    html+=`</div></div>`;
+  });
+
+  area.innerHTML = html;
+  updateScoreBar();
+  updateProgress();
+}
+
+// ── INTERACTIONS ────────────────────────────
+function selectOpt(el, qid, idx, correct) {
+  if (answered[qid]!==undefined) return;
+  // deselect all
+  document.querySelectorAll(`[data-qid="${qid}"]`).forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  answered[`${qid}_sel`] = idx;
+  document.getElementById(`chkbtn_${qid}`).disabled = false;
+}
+
+function checkMCQ(qid, correct) {
+  const q = questions.find(q=>q.id===qid);
+  const sel = answered[`${qid}_sel`];
+  if (sel===undefined) return;
+
+  const isCorrect = sel===correct;
+  answered[qid] = isCorrect;
+  if (!isCorrect) answered[`${qid}_wrong`] = sel;
+
+  attempted++;
+  if (isCorrect) correct_count();
+
+  // Update option styles
+  document.querySelectorAll(`[data-qid="${qid}"]`).forEach((o,j)=>{
+    o.onclick = null;
+    if (j===correct) o.classList.add('correct');
+    else if (j===sel && j!==correct) o.classList.add('wrong');
+    o.classList.remove('selected');
+  });
+
+  // Show feedback
+  const fb = document.getElementById(`fb_${qid}`);
+  fb.classList.add('show');
+  if (isCorrect) { fb.classList.add('ok'); fb.innerHTML='✅ Correct! Well done!'; }
+  else { fb.classList.add('bad'); fb.innerHTML=`❌ Incorrect. Correct answer: <strong>${q.ans_text}</strong>`; }
+
+  // Show solution
+  document.getElementById(`sol_${qid}`).classList.add('show');
+
+  // Hide check button
+  const btn = document.getElementById(`chkbtn_${qid}`);
+  if (btn) btn.style.display='none';
+
+  updateScoreBar();
+  updateProgress();
+}
+
+function checkNum(qid, correct) {
+  const q = questions.find(q=>q.id===qid);
+  const inp = document.getElementById(`inp_${qid}`);
+  const val = inp.value.trim();
+  answered[`${qid}_val`] = val;
+
+  const isCorrect = val.toLowerCase() === correct.toLowerCase();
+  answered[qid] = isCorrect;
+  attempted++;
+  if (isCorrect) correct_count();
+
+  inp.disabled = true;
+  inp.classList.add(isCorrect?'correct':'wrong');
+
+  const fb = document.getElementById(`fb_${qid}`);
+  fb.classList.add('show');
+  if (isCorrect) { fb.classList.add('ok'); fb.innerHTML='✅ Correct! Well done!'; }
+  else { fb.classList.add('bad'); fb.innerHTML=`❌ Incorrect. Correct answer: <strong>${q.ans_text}</strong>`; }
+
+  document.getElementById(`sol_${qid}`).classList.add('show');
+  updateScoreBar();
+  updateProgress();
+}
+
+function correct_count() { correct++; score++; }
+
+function toggleSol(qid) {
+  const sol = document.getElementById(`sol_${qid}`);
+  sol.classList.toggle('show');
+}
+
+function updateScoreBar() {
+  document.getElementById('scoreVal').textContent = score;
+  document.getElementById('totalVal').textContent = questions.length;
+  document.getElementById('attVal').textContent = attempted;
+  document.getElementById('corrVal').textContent = correct;
+}
+
+function updateProgress() {
+  const pct = (attempted / questions.length) * 100;
+  const bar = document.getElementById('pbar');
+  if (bar) bar.style.width = pct+'%';
+}
+
+// ── INIT ──────────────────────────────────
+render();
+</script>
+</body>
+</html>

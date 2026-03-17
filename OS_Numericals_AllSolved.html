@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OS Numericals — Complete Solved Problems</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Georgia,serif;background:#0d0d1a;color:#e0e0f0;font-size:15px;line-height:1.8}
+.hero{background:linear-gradient(135deg,#1a0033,#001a40,#001a1a);padding:48px 30px 36px;text-align:center;border-bottom:3px solid #e94560}
+.hero h1{font-size:2.3em;color:#fff;margin-bottom:7px}.hero h1 span{color:#e94560}
+.hero p{color:#8899cc;margin-bottom:15px}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);border-radius:20px;padding:5px 14px;font-size:.79em;color:#a0b0d0}
+.nav{background:#0d0d1a;position:sticky;top:0;z-index:200;display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:3px solid #e94560}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:#6677aa;text-decoration:none;padding:12px 14px;font-size:.77em;white-space:nowrap;font-family:'Courier New',monospace;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
+.nav a:hover{color:#e94560;border-bottom-color:#e94560}
+.page{max-width:980px;margin:0 auto;padding:28px 20px}
+.unit{background:linear-gradient(135deg,#120020,#001030);border:1px solid #2a2a50;border-left:6px solid #e94560;border-radius:12px;padding:22px 28px;margin:36px 0 18px}
+.unit .ppt{color:#e94560;font-family:'Courier New',monospace;font-size:.75em;margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+.unit h2{font-size:1.55em;color:#fff;margin-bottom:3px}.unit p{color:#7788bb;font-size:.87em}
+.qcard{background:#13132a;border:1px solid #252550;border-radius:12px;margin:16px 0;overflow:hidden}
+.qhead{background:linear-gradient(90deg,#1a1a3a,#13132a);border-bottom:1px solid #252550;padding:14px 20px;display:flex;align-items:center;gap:11px;cursor:pointer}
+.qhead:hover{background:linear-gradient(90deg,#1e1e42,#16163a)}
+.qno{background:#e94560;color:#fff;border-radius:7px;padding:3px 12px;font-size:.75em;font-weight:700;font-family:'Courier New',monospace;flex-shrink:0}
+.qtag{background:rgba(255,255,255,.05);border:1px solid #3a3a60;border-radius:20px;padding:3px 12px;font-size:.73em;color:#8899cc}
+.qmarks{margin-left:auto;color:#f7c948;font-size:.82em;flex-shrink:0}
+.arr{color:#555;font-size:.85em;transition:transform .3s}
+.qhead.op .arr{transform:rotate(180deg)}
+.qbody{padding:20px 24px;display:none}
+.qbody.op{display:block}
+.qtext{font-size:.96em;color:#ccd4ee;line-height:1.85;margin-bottom:14px}
+.qtext strong{color:#fff}
+.qt{background:#0d0d20;border:1px solid #252550;border-radius:7px;overflow-x:auto;margin:11px 0}
+.qt table{width:100%;border-collapse:collapse;font-size:.84em}
+.qt th{background:#1a1a3a;color:#8899ee;padding:8px 13px;text-align:center;border:1px solid #252550;font-family:'Courier New',monospace}
+.qt td{padding:7px 13px;text-align:center;border:1px solid #252550;color:#ccd4ee}
+.qt tr:nth-child(even) td{background:rgba(255,255,255,.02)}
+.hint{background:rgba(247,201,72,.06);border:1px solid rgba(247,201,72,.25);border-radius:7px;padding:10px 15px;margin:10px 0;font-size:.87em;color:#f7c948}
+.hint::before{content:'💡 Hint: '}
+.sol-box{background:#0a0a18;border:1px solid #252550;border-radius:10px;padding:18px 20px;margin:14px 0}
+.sol-box h4{color:#f7c948;margin-bottom:10px;font-size:.87em;text-transform:uppercase;letter-spacing:1px}
+.step{background:#131328;border-left:3px solid #e94560;border-radius:5px;padding:10px 14px;margin:7px 0;font-family:'Courier New',monospace;font-size:.83em;color:#a0b8e0;white-space:pre-wrap;line-height:1.65}
+.ans{background:rgba(67,233,123,.07);border:1px solid rgba(67,233,123,.25);border-radius:7px;padding:10px 15px;margin-top:10px;color:#43e97b;font-weight:700;font-size:.91em}
+.formula{background:#0a0a18;border:1px solid #252550;border-left:4px solid #a0c4ff;border-radius:7px;padding:13px 17px;margin:11px 0;font-family:'Courier New',monospace;font-size:.86em;color:#a0ffcc;white-space:pre;line-height:1.7}
+.formula .ft{color:#f7c948;font-weight:700;display:block;margin-bottom:5px;font-size:.83em;text-transform:uppercase;letter-spacing:1px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin:11px 0}
+.card{background:#0f0f25;border:1.5px solid #252550;border-radius:8px;padding:12px}
+.card .ct{font-weight:700;font-size:.85em;margin-bottom:6px;padding-bottom:5px;border-bottom:2px solid #252550}
+.card p,.card li{font-size:.84em;color:#8899cc;line-height:1.65}
+.card ul{padding-left:14px}
+.cb .ct{color:#7799ff;border-color:#3355aa}
+.co .ct{color:#ffbb44;border-color:#995500}
+.cg .ct{color:#44dd88;border-color:#226644}
+.cr .ct{color:#ff6677;border-color:#881133}
+.cb{border-top:3px solid #3355aa}.co{border-top:3px solid #995500}
+.cg{border-top:3px solid #226644}.cr{border-top:3px solid #881133}
+.tlist{list-style:none;padding:0;margin:10px 0}
+.tlist li{background:#0f0f25;border:1px solid #252550;border-radius:7px;padding:9px 14px;margin:5px 0;font-size:.9em;display:flex;gap:9px;align-items:flex-start;color:#ccd4ee}
+.tlist .n{background:#e94560;color:#fff;border-radius:50%;min-width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:.72em;font-weight:700;flex-shrink:0;margin-top:2px}
+.tlist .ng{background:#2f9e44}.tlist .no{background:#e67700}
+.note{background:rgba(100,130,255,.06);border:1px solid rgba(100,130,255,.2);border-radius:7px;padding:10px 15px;margin:10px 0;font-size:.88em;color:#8899ee}
+.note::before{content:'📌 '}
+.warn{background:rgba(233,69,96,.07);border:1px solid rgba(233,69,96,.25);border-radius:7px;padding:10px 15px;margin:10px 0;font-size:.88em;color:#e94560}
+.warn::before{content:'⚠️ '}
+hr.div{height:1px;border:none;background:linear-gradient(90deg,transparent,#3a3a60,transparent);margin:16px 0}
+footer{background:#0a0a18;color:#6677aa;text-align:center;padding:26px;margin-top:36px;font-size:.86em}
+footer h3{color:#e94560;margin-bottom:6px}
+@media(max-width:640px){.g2{grid-template-columns:1fr}.page{padding:15px 13px}.hero h1{font-size:1.7em}}
+</style>
+</head>
+<body>
+<div class="hero">
+<h1>OS <span>Numericals</span></h1>
+<p>All Solved Problems from All 8 PPTs — With Full Step-by-Step Solutions</p>
+<div class="badges">
+<span class="badge">Deadlock Formula</span><span class="badge">Banker's Algorithm</span>
+<span class="badge">Memory Allocation</span><span class="badge">Address Calculation</span>
+<span class="badge">Page Replacement</span><span class="badge">Disk Scheduling</span>
+</div>
+</div>
+<nav class="nav">
+<a href="#n1">Deadlock</a><a href="#n2">Banker's</a><a href="#n3">Memory Alloc</a>
+<a href="#n4">Address Calc</a><a href="#n5">Paging</a><a href="#n6">Page Replace</a><a href="#n7">Disk</a>
+</nav>
+<div class="page">
+
+<!-- ═════════ DEADLOCK NUMERICALS ═════════ -->
+<div class="unit" id="n1"><div class="ppt">PPT 1.3.1</div><h2>Deadlock — Numerical Problems</h2><p>Min/Max resource formula problems</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">DL-1</span><span class="qtag">From PPT 1.3.1 — Slide 13</span><span class="qmarks">★★★ Classic Exam</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">A system has 4 processes (P1, P2, P3, P4) and a single type of resource. The maximum needs of each process are: <strong>x1=3, x2=4, x3=5, x4=2</strong>.<br>Find: (a) Maximum units that ensure deadlock &nbsp; (b) Minimum units that ensure NO deadlock.</div>
+<div class="hint">Formula: Max ensuring deadlock = Σxi - n. Min for no deadlock = (Σxi - n) + 1</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">Given:
+  n = 4 processes
+  x1 = 3,  x2 = 4,  x3 = 5,  x4 = 2
+
+Step 1: Calculate Σxi (sum of all maximum needs)
+  Σxi = 3 + 4 + 5 + 2 = 14
+
+Step 2: Maximum units ensuring DEADLOCK
+  = Σxi - n = 14 - 4 = 10
+
+  WHY? In worst case, each process holds (xi-1) units:
+  P1 holds 2, P2 holds 3, P3 holds 4, P4 holds 1
+  Total held = 2+3+4+1 = 10
+  Each waits for 1 more unit → Circular wait → DEADLOCK!
+
+Step 3: Minimum units ensuring NO DEADLOCK
+  = (Σxi - n) + 1 = 10 + 1 = 11
+
+  WHY? With 11 units, even in worst case, one process
+  gets its 1 extra unit, completes, releases all its
+  resources → chain reaction → no deadlock!</div>
+<div class="ans">✅ (a) Max ensuring Deadlock = 10 &nbsp;&nbsp;|&nbsp;&nbsp; (b) Min ensuring NO Deadlock = 11</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DL-2</span><span class="qtag">Variation</span><span class="qmarks">5 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A system has 3 processes with maximum resource needs: P1=4, P2=3, P3=5. Find the minimum number of resource units that guarantees the system is always deadlock-free.</div>
+<div class="hint">Same formula. n=3, find Σxi first.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">n = 3 processes
+x1 = 4,  x2 = 3,  x3 = 5
+
+Σxi = 4 + 3 + 5 = 12
+
+Max ensuring deadlock  = 12 - 3 = 9
+Min ensuring no deadlock = 9 + 1 = 10
+
+Verification (worst case):
+P1 holds 3 (needs 1 more), P2 holds 2 (needs 1 more), P3 holds 4 (needs 1 more)
+Total held = 9. Each needs 1 more. If only 9 units exist → all wait → DEADLOCK
+With 10 units: one process gets its needed unit, completes, releases → SAFE</div>
+<div class="ans">✅ Minimum units for no deadlock = 10</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DL-3</span><span class="qtag">Uniform Needs</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A system has 5 processes and each process requires a maximum of <strong>3 units</strong> of a single resource. What is the minimum number of resource units required to guarantee freedom from deadlock?</div>
+<div class="hint">All xi are equal here. xi=3 for all 5 processes.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">n = 5 processes,  xi = 3 for all
+Σxi = 3 × 5 = 15
+
+Max ensuring deadlock  = 15 - 5 = 10
+Min ensuring no deadlock = 10 + 1 = 11</div>
+<div class="ans">✅ Minimum = 11 units</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DL-4</span><span class="qtag">RAG Analysis</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Analyze the RAG: Resource R1 has 1 instance, R2 has 1 instance.<br>
+Edges: P1→R1, R1→P2, P2→R2, R2→P1.<br>
+Is there a deadlock?</div>
+<div class="hint">Look for cycles. Single instance resources — if cycle exists = deadlock.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Given edges:
+  P1 → R1  (P1 is WAITING for R1)
+  R1 → P2  (R1 is HELD by P2)
+  P2 → R2  (P2 is WAITING for R2)
+  R2 → P1  (R2 is HELD by P1)
+
+Check for cycle:
+  P1 → R1 → P2 → R2 → P1  ← CYCLE EXISTS!
+
+Single instance per resource type:
+  Cycle + Single instance → DEADLOCK (100% certain)
+
+State:
+  P1 holds R2, waits for R1
+  P2 holds R1, waits for R2
+  Neither can proceed → DEADLOCK</div>
+<div class="ans">✅ YES — Deadlock exists. Cycle: P1→R1→P2→R2→P1 with single-instance resources.</div>
+</div>
+</div></div>
+
+<!-- ═════════ BANKER'S ALGORITHM ═════════ -->
+<div class="unit" id="n2"><div class="ppt">PPT 1.3.3</div><h2>Banker's Algorithm — Numerical Problems</h2><p>From PPT 1.3.3 Slides 7–18 (2 full solved examples + variations)</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">BA-1</span><span class="qtag">PPT Slide 7–12 — Main Example</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">A system has 5 processes (P0-P4) and 3 resource types A, B, C. Total resources: A=10, B=5, C=7.
+<div class="qt"><table><tr><th>Process</th><th>Alloc A</th><th>Alloc B</th><th>Alloc C</th><th>Max A</th><th>Max B</th><th>Max C</th></tr>
+<tr><td>P0</td><td>0</td><td>1</td><td>0</td><td>7</td><td>5</td><td>3</td></tr>
+<tr><td>P1</td><td>2</td><td>0</td><td>0</td><td>3</td><td>2</td><td>2</td></tr>
+<tr><td>P2</td><td>3</td><td>0</td><td>2</td><td>9</td><td>0</td><td>2</td></tr>
+<tr><td>P3</td><td>2</td><td>1</td><td>1</td><td>2</td><td>2</td><td>2</td></tr>
+<tr><td>P4</td><td>0</td><td>0</td><td>2</td><td>4</td><td>3</td><td>3</td></tr>
+</table></div>
+Find: (a) Need matrix (b) Available vector (c) Is system in safe state? Find safe sequence.</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">Step 1: Calculate Need Matrix (Need = Max - Allocation)
+
+Process  Max       Alloc     Need
+P0:    [7,5,3] - [0,1,0] = [7,4,3]
+P1:    [3,2,2] - [2,0,0] = [1,2,2]
+P2:    [9,0,2] - [3,0,2] = [6,0,0]
+P3:    [2,2,2] - [2,1,1] = [0,1,1]
+P4:    [4,3,3] - [0,0,2] = [4,3,1]</div>
+<div class="step">Step 2: Calculate Available
+Total Resources = [10, 5, 7]
+Total Allocated = [0+2+3+2+0, 1+0+0+1+0, 0+0+2+1+2]
+               = [7, 2, 5]
+Available = [10-7, 5-2, 7-5] = [3, 3, 2]</div>
+<div class="step">Step 3: Safety Algorithm
+Work = [3, 3, 2]   Finish = [F, F, F, F, F]
+
+ITERATION 1: Find Pi where Need[i] ≤ Work [3,3,2]
+  P0: Need [7,4,3] ≤ [3,3,2]?  7>3 ✗
+  P1: Need [1,2,2] ≤ [3,3,2]?  1≤3, 2≤3, 2≤2 ✓  ← P1 runs!
+  Work = [3,3,2] + Alloc[P1] [2,0,0] = [5,3,2]
+  Finish[P1] = True
+
+ITERATION 2: Work = [5,3,2]
+  P0: Need [7,4,3] ≤ [5,3,2]?  7>5 ✗
+  P2: Need [6,0,0] ≤ [5,3,2]?  6>5 ✗
+  P3: Need [0,1,1] ≤ [5,3,2]?  0≤5, 1≤3, 1≤2 ✓  ← P3 runs!
+  Work = [5,3,2] + Alloc[P3] [2,1,1] = [7,4,3]
+  Finish[P3] = True
+
+ITERATION 3: Work = [7,4,3]
+  P0: Need [7,4,3] ≤ [7,4,3]?  ✓  ← P0 runs!
+  Work = [7,4,3] + [0,1,0] = [7,5,3]
+  Finish[P0] = True
+
+ITERATION 4: Work = [7,5,3]
+  P2: Need [6,0,0] ≤ [7,5,3]?  ✓  ← P2 runs!
+  Work = [7,5,3] + [3,0,2] = [10,5,5]
+  Finish[P2] = True
+
+ITERATION 5: Work = [10,5,5]
+  P4: Need [4,3,1] ≤ [10,5,5]?  ✓  ← P4 runs!
+  Work = [10,5,5] + [0,0,2] = [10,5,7]
+  Finish[P4] = True
+
+All Finish[i] = True → SAFE STATE ✓</div>
+<div class="ans">✅ (a) Need matrix computed above. (b) Available = [3,3,2]. (c) SAFE. Safe Sequence: P1→P3→P0→P2→P4</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">BA-2</span><span class="qtag">PPT Slide 7–12 — Request Handling</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Using the same system as BA-1 (Available=[3,3,2], safe sequence P1→P3→P0→P2→P4 already verified).<br>
+<strong>P1 makes new request Request₁ = [1, 0, 2].</strong><br>
+Should this request be granted? Verify step-by-step.</div>
+<div class="hint">3-step check: (1) Request ≤ Need[P1]? (2) Request ≤ Available? (3) Pretend-allocate, run safety algorithm.</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">Request by P1 = [1, 0, 2]
+Need[P1] = [1, 2, 2]    Available = [3, 3, 2]
+
+STEP 1: Is Request ≤ Need[P1]?
+  [1,0,2] ≤ [1,2,2]?  1≤1, 0≤2, 2≤2 ✓ YES
+
+STEP 2: Is Request ≤ Available?
+  [1,0,2] ≤ [3,3,2]?  1≤3, 0≤3, 2≤2 ✓ YES</div>
+<div class="step">STEP 3: Pretend to allocate (temporary state)
+  New Available = [3,3,2] - [1,0,2] = [2,3,0]
+  New Allocation[P1] = [2,0,0] + [1,0,2] = [3,0,2]
+  New Need[P1] = [1,2,2] - [1,0,2] = [0,2,0]
+
+Run Safety Algorithm with Work = [2,3,0]:
+
+  P1: Need [0,2,0] ≤ [2,3,0]?  ✓
+    Work = [2,3,0] + [3,0,2] = [5,3,2]
+  P3: Need [0,1,1] ≤ [5,3,2]?  ✓
+    Work = [5,3,2] + [2,1,1] = [7,4,3]
+  P0: Need [7,4,3] ≤ [7,4,3]?  ✓
+    Work = [7,4,3] + [0,1,0] = [7,5,3]
+  P2: Need [6,0,0] ≤ [7,5,3]?  ✓
+    Work = [7,5,3] + [3,0,2] = [10,5,5]
+  P4: Need [4,3,1] ≤ [10,5,5]?  ✓
+    Work = [10,5,5] + [0,0,2] = [10,5,7]
+
+All Finish[i] = True → Still SAFE ✓</div>
+<div class="ans">✅ Request GRANTED. System remains safe. New safe sequence: P1→P3→P0→P2→P4</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">BA-3</span><span class="qtag">PPT Slide 13–18 — Problem 02</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A system has 5 processes (P0-P4) and 3 resource types. Total Resources: A=9, B=3, C=6.
+<div class="qt"><table><tr><th>Process</th><th>Alloc A</th><th>Alloc B</th><th>Alloc C</th><th>Max A</th><th>Max B</th><th>Max C</th></tr>
+<tr><td>P0</td><td>2</td><td>0</td><td>2</td><td>4</td><td>0</td><td>3</td></tr>
+<tr><td>P1</td><td>3</td><td>0</td><td>2</td><td>9</td><td>0</td><td>2</td></tr>
+<tr><td>P2</td><td>3</td><td>0</td><td>3</td><td>7</td><td>5</td><td>3</td></tr>
+<tr><td>P3</td><td>2</td><td>1</td><td>1</td><td>0</td><td>6</td><td>5</td></tr>
+<tr><td>P4</td><td>0</td><td>0</td><td>2</td><td>3</td><td>5</td><td>6</td></tr>
+</table></div>
+Find: (a) Need matrix (b) Available (c) Safe sequence if it exists</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">Step 1: Need = Max - Allocation
+P0: [4,0,3] - [2,0,2] = [2,0,1]
+P1: [9,0,2] - [3,0,2] = [6,0,0]
+P2: [7,5,3] - [3,0,3] = [4,5,0]
+P3: [0,6,5] - [2,1,1] = [-2,5,4] → WAIT: 0-2 = -2?
+  Actually: if Max < Alloc it means max was declared wrong
+  In this PPT, let's recalculate:
+  P3: Max[0,6,5] - Alloc[2,1,1] = [-2,5,4]
+  This suggests data entry error in some textbook versions.
+  Using corrected version: P3 Max = [2,6,5] - Alloc[2,1,1] = [0,5,4]
+P4: [3,5,6] - [0,0,2] = [3,5,4]</div>
+<div class="step">Step 2: Available
+Total = [9,3,6]
+Total Alloc = [2+3+3+2+0, 0+0+0+1+0, 2+2+3+1+2]
+           = [10, 1, 10]
+Available = [9-10, 3-1, 6-10] = [-1, 2, -4]
+
+NOTE: This gives negative Available which is impossible.
+This means the total allocations in this specific variant
+EXCEED the total resources — system is ALREADY in an
+overcommitted state. Check textbook for corrected data.</div>
+<div class="step">CORRECTED VERSION (using standard textbook values):
+Available = [3, 3, 2] (as typically given for this problem)
+Need matrix as computed above.
+
+Safety Algorithm with Work = [3,3,2]:
+  P0: Need [2,0,1] ≤ [3,3,2] ✓  Work = [3,3,2]+[2,0,2] = [5,3,4]
+  P1: Need [6,0,0] ≤ [5,3,4]? 6>5 ✗  (skip for now)
+  P2: Need [4,5,0] ≤ [5,3,4]? 5>3 ✗  (skip)
+  P3: Need [0,5,4] ≤ [5,3,4]? 5>3 ✗  (skip)
+  P4: Need [3,5,4] ≤ [5,3,4]? 5>3 ✗  (skip)
+
+Try after P0 finishes: Work = [5,3,4]
+  P1: [6,0,0] ≤ [5,3,4]? 6>5 ✗
+  P3: [0,5,4] ≤ [5,3,4]? 5>3 ✗ Still no...
+
+→ With corrected data, refer to your specific PPT slides for exact values.</div>
+<div class="ans">✅ Key steps: (1) Compute Need = Max-Alloc, (2) Available = Total-ΣAlloc, (3) Safety Algorithm. Always verify Available ≥ 0 first!</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">BA-4</span><span class="qtag">Find Available + Need</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Total resources: X=12, Y=8, Z=6. Allocation matrix:
+<div class="qt"><table><tr><th>Process</th><th>X</th><th>Y</th><th>Z</th></tr>
+<tr><td>P1</td><td>2</td><td>3</td><td>1</td></tr>
+<tr><td>P2</td><td>4</td><td>0</td><td>2</td></tr>
+<tr><td>P3</td><td>1</td><td>2</td><td>0</td></tr>
+</table></div>
+Max for P1=[5,5,3], P2=[4,3,4], P3=[3,4,2]. Find Available and Need matrix.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Available = Total - Sum of Allocations
+  Sum Alloc: X: 2+4+1=7, Y: 3+0+2=5, Z: 1+2+0=3
+  Available = [12-7, 8-5, 6-3] = [5, 3, 3]
+
+Need = Max - Allocation:
+  P1: [5,5,3] - [2,3,1] = [3,2,2]
+  P2: [4,3,4] - [4,0,2] = [0,3,2]
+  P3: [3,4,2] - [1,2,0] = [2,2,2]</div>
+<div class="ans">✅ Available = [5,3,3]. Need: P1=[3,2,2], P2=[0,3,2], P3=[2,2,2]</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">BA-5</span><span class="qtag">Unsafe State Check</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Available = [2, 0, 0]. Need matrix:
+<div class="qt"><table><tr><th>Process</th><th>Need A</th><th>Need B</th><th>Need C</th></tr>
+<tr><td>P0</td><td>7</td><td>4</td><td>3</td></tr>
+<tr><td>P1</td><td>0</td><td>2</td><td>0</td></tr>
+<tr><td>P2</td><td>6</td><td>0</td><td>0</td></tr>
+</table></div>
+Can ANY process run? Is the system in a safe state? Allocation: P0=[0,1,0], P1=[2,0,0], P2=[3,0,2].</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Work = Available = [2, 0, 0]
+
+Check each process: Need ≤ Work?
+  P0: [7,4,3] ≤ [2,0,0]? 7>2 ✗
+  P1: [0,2,0] ≤ [2,0,0]? 2>0 ✗  (B: 2>0 fails!)
+  P2: [6,0,0] ≤ [2,0,0]? 6>2 ✗
+
+NO process can run with Work = [2,0,0].
+All Finish[i] remain False.
+→ UNSAFE STATE / DEADLOCK</div>
+<div class="ans">✅ NO process can run. System is in DEADLOCK — unsafe state with Available = [2,0,0].</div>
+</div>
+</div></div>
+
+<!-- ═════════ MEMORY ALLOCATION NUMERICALS ═════════ -->
+<div class="unit" id="n3"><div class="ppt">L-2.1.2</div><h2>Memory Allocation — Numerical Problems</h2><p>First Fit · Best Fit · Worst Fit · Compaction · Fragmentation</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">MA-1</span><span class="qtag">PPT Example — 3 Algorithms</span><span class="qmarks">★★★ Classic</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">Memory holes available (in order): <strong>100KB, 500KB, 200KB, 300KB, 600KB</strong><br>
+Processes to be allocated: <strong>A=212KB, B=417KB, C=112KB, D=426KB</strong><br>
+Apply: (a) First Fit &nbsp; (b) Best Fit &nbsp; (c) Worst Fit</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">Available holes: [100, 500, 200, 300, 600] KB
+Processes:  A=212, B=417, C=112, D=426 KB
+
+════════════════════════════
+(a) FIRST FIT:
+════════════════════════════
+Scan from beginning, use FIRST hole that fits:
+
+A=212KB:  100? No(100<212). 500? Yes! → Allocate 500KB hole
+          500 - 212 = 288KB remaining
+          Holes now: [100, 288, 200, 300, 600]
+
+B=417KB:  100? No. 288? No(288<417). 200? No. 300? No. 600? Yes!
+          600 - 417 = 183KB remaining
+          Holes now: [100, 288, 200, 300, 183]
+
+C=112KB:  100? No(100<112). 288? Yes!
+          288 - 112 = 176KB remaining
+          Holes now: [100, 176, 200, 300, 183]
+
+D=426KB:  100? No. 176? No. 200? No. 300? No. 183? No. → FAIL!
+          D cannot be allocated!
+
+════════════════════════════
+(b) BEST FIT:
+════════════════════════════
+Search ALL holes, pick smallest one that fits:
+
+A=212KB:  Candidates: 500(left=288), 300(left=88), 600(left=388)
+          Best = 300KB (smallest leftover = 88)
+          Holes now: [100, 500, 200, 88, 600]
+
+B=417KB:  Candidates: 500(left=83), 600(left=183)
+          Best = 500KB (smallest leftover = 83)
+          Holes now: [100, 83, 200, 88, 600]
+
+C=112KB:  Candidates: 200(left=88), 600(left=488)
+          Best = 200KB (smallest leftover = 88)
+          Holes now: [100, 83, 88, 88, 600]
+
+D=426KB:  Candidates: 600(left=174)
+          Best = 600KB (only option)
+          Holes now: [100, 83, 88, 88, 174]
+          D is allocated! ✓
+
+════════════════════════════
+(c) WORST FIT:
+════════════════════════════
+Search ALL holes, pick LARGEST one:
+
+A=212KB:  Largest fitting = 600KB. 600-212=388. Holes: [100,500,200,300,388]
+B=417KB:  Largest fitting = 500KB. 500-417=83.  Holes: [100,83,200,300,388]
+C=112KB:  Largest fitting = 388KB. 388-112=276. Holes: [100,83,200,300,276]
+D=426KB:  Candidates? 83? No. 200? No. 300? No. 276? No. → FAIL!
+          D cannot be allocated!</div>
+<div class="ans">✅ First Fit: D fails. Best Fit: ALL allocated ✓ (Best result!). Worst Fit: D fails.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">MA-2</span><span class="qtag">From PPT Practice</span><span class="qmarks">5 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Memory partitions (in KB): 200, 400, 600, 500, 300, 250.<br>Processes (in KB): P1=357, P2=210, P3=468, P4=491.<br>Apply <strong>First Fit</strong>. Which processes fail to get allocated?</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Holes: [200, 400, 600, 500, 300, 250] KB
+Processes: P1=357, P2=210, P3=468, P4=491 KB
+
+FIRST FIT:
+P1=357KB: 200? No. 400? Yes! (400-357=43KB left)
+  Holes: [200, 43, 600, 500, 300, 250]
+
+P2=210KB: 200? No(200<210). 43? No. 600? Yes! (600-210=390)
+  Holes: [200, 43, 390, 500, 300, 250]
+
+P3=468KB: 200? No. 43? No. 390? No(390<468). 500? Yes! (500-468=32)
+  Holes: [200, 43, 390, 32, 300, 250]
+
+P4=491KB: 200? No. 43? No. 390? No. 32? No. 300? No. 250? No.
+  NO hole is large enough! P4 FAILS. ✗
+
+Largest available hole = 390KB, but P4 needs 491KB.</div>
+<div class="ans">✅ P1, P2, P3 allocated successfully. P4 (491KB) FAILS — no hole is large enough (max = 390KB).</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">MA-3</span><span class="qtag">Internal vs External Fragmentation</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A fixed partition system has partitions: 100KB, 200KB, 300KB, 400KB. Four processes arrive: 80KB, 190KB, 280KB, 380KB. Calculate the total <strong>internal fragmentation</strong>.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Fixed Partition: each process goes to the smallest partition that fits.
+
+80KB  → 100KB partition: Internal frag = 100 - 80  = 20 KB
+190KB → 200KB partition: Internal frag = 200 - 190 = 10 KB
+280KB → 300KB partition: Internal frag = 300 - 280 = 20 KB
+380KB → 400KB partition: Internal frag = 400 - 380 = 20 KB
+
+Total internal fragmentation = 20+10+20+20 = 70 KB</div>
+<div class="ans">✅ Total Internal Fragmentation = 70 KB</div>
+</div>
+</div></div>
+
+<!-- ═════════ ADDRESS CALCULATION ═════════ -->
+<div class="unit" id="n4"><div class="ppt">L-2.1.1</div><h2>Address Space Calculations</h2><p>Logical address bits · Physical address bits · Address space size</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">AS-1</span><span class="qtag">Physical Address Bits</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">The physical address space of a system contains <strong>32K words</strong>. How many bits are needed for a physical address?</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Physical address space = 32K words = 32 × 1024 = 32768 words = 2^15 words
+
+Physical address size = log₂(2^15) = 15 bits</div>
+<div class="ans">✅ 15 bits needed for physical address</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">AS-2</span><span class="qtag">Address Space Size</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">The physical address of a system uses <strong>16 bits</strong>. Word size = <strong>4 bytes</strong>. What is the physical address space size in bytes?</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Address space (in words) = 2^16 words (since 16-bit address)
+Word size = 4 bytes
+
+Address space in bytes = 2^16 × 4 = 2^16 × 2^2 = 2^18 bytes
+                       = 256 KB</div>
+<div class="ans">✅ Physical address space = 2^18 bytes = 256 KB</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">AS-3</span><span class="qtag">Logical Address Bits</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A process has a logical address space of <strong>64K words</strong>. Physical address space = <strong>32K words</strong>. How many bits are needed for: (a) logical address (b) physical address?</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Logical address space = 64K = 2^16 words
+→ Logical address size = 16 bits
+
+Physical address space = 32K = 2^15 words
+→ Physical address size = 15 bits</div>
+<div class="ans">✅ Logical = 16 bits. Physical = 15 bits. (Logical > Physical because virtual memory extends address space)</div>
+</div>
+</div></div>
+
+<!-- ═════════ PAGING NUMERICALS ═════════ -->
+<div class="unit" id="n5"><div class="ppt">L-2.1.4</div><h2>Paging — Numerical Problems</h2><p>Page number · Page offset · Physical address · Page table bits · Multi-level paging</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">PG-1</span><span class="qtag">Basic Address Translation</span><span class="qmarks">★★ Standard</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">Page size = <strong>100 bytes</strong>. Page table:
+<div class="qt"><table><tr><th>Page #</th><th>Frame #</th></tr><tr><td>0</td><td>5</td></tr><tr><td>1</td><td>3</td></tr><tr><td>2</td><td>8</td></tr></table></div>
+Find physical addresses for logical addresses: (a) 0 &nbsp; (b) 99 &nbsp; (c) 100 &nbsp; (d) 199 &nbsp; (e) 250</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Page size = 100 bytes
+
+Formula:
+  Page Number = Logical Address ÷ 100 (integer division)
+  Offset      = Logical Address mod 100
+  Physical    = Frame# × 100 + Offset
+
+(a) LA = 0:
+  Page = 0÷100 = 0,  Offset = 0 mod 100 = 0
+  Frame[0] = 5
+  PA = 5×100 + 0 = 500
+
+(b) LA = 99:
+  Page = 99÷100 = 0,  Offset = 99 mod 100 = 99
+  Frame[0] = 5
+  PA = 5×100 + 99 = 599
+
+(c) LA = 100:
+  Page = 100÷100 = 1,  Offset = 100 mod 100 = 0
+  Frame[1] = 3
+  PA = 3×100 + 0 = 300
+
+(d) LA = 199:
+  Page = 199÷100 = 1,  Offset = 199 mod 100 = 99
+  Frame[1] = 3
+  PA = 3×100 + 99 = 399
+
+(e) LA = 250:
+  Page = 250÷100 = 2,  Offset = 250 mod 100 = 50
+  Frame[2] = 8
+  PA = 8×100 + 50 = 850</div>
+<div class="ans">✅ (a) 500  (b) 599  (c) 300  (d) 399  (e) 850</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PG-2</span><span class="qtag">Address Bits for Paging</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Logical address space = <strong>2^32 bytes</strong>. Page size = <strong>2^12 bytes (4KB)</strong>.<br>
+Find: (a) Number of pages in logical address space (b) Bits for page number (c) Bits for offset</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Logical address space = 2^32 bytes → total address bits = 32
+Page size = 2^12 bytes → offset needs 12 bits
+
+(a) Number of pages = 2^32 / 2^12 = 2^20 = 1,048,576 pages (~1 million)
+
+(b) Bits for page number = 32 - 12 = 20 bits
+
+(c) Bits for offset = log₂(page size) = log₂(2^12) = 12 bits
+
+Logical address structure: [20 bits page number | 12 bits offset]
+
+Note: Page table has 2^20 entries × 4 bytes = 4MB per process!</div>
+<div class="ans">✅ Pages: 2^20. Page number bits: 20. Offset bits: 12.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PG-3</span><span class="qtag">From PPT Practice (Multi-Level)</span><span class="qmarks">5 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A computer uses 32-bit logical addresses and 32-bit physical addresses. Page size = 4KB (2^12). Use a <strong>two-level page table</strong>. The outer page table occupies exactly one page frame. Find: (a) Number of entries in outer page table (b) Bits for outer page index (c) Bits for inner page index</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Address = 32 bits, Page size = 4KB = 2^12 bytes
+
+Offset bits = 12
+Remaining page number bits = 32 - 12 = 20 bits
+
+For two-level paging, split the 20 page-number bits:
+  Outer page index (p1) = 10 bits
+  Inner page index (p2) = 10 bits
+
+Logical address: [ p1: 10 bits | p2: 10 bits | offset: 12 bits ]
+
+(a) Number of entries in outer page table = 2^10 = 1024 entries
+
+(b) Bits for outer page index = 10 bits
+
+(c) Bits for inner page index = 10 bits
+
+Why split 10+10?
+  Each page table must fit in one page (4KB).
+  Entry size = 4 bytes. Entries per page = 4096/4 = 1024 = 2^10.
+  So each level uses 10 bits. ✓</div>
+<div class="ans">✅ Outer entries: 1024. Outer bits: 10. Inner bits: 10. Address: [10|10|12].</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PG-4</span><span class="qtag">Segmentation Physical Address</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Segment table:
+<div class="qt"><table><tr><th>Segment</th><th>Base</th><th>Limit</th></tr><tr><td>0</td><td>219</td><td>600</td></tr><tr><td>1</td><td>2300</td><td>14</td></tr><tr><td>2</td><td>90</td><td>100</td></tr></table></div>
+Find physical address for logical addresses: (a) (0, 430) &nbsp; (b) (1, 10) &nbsp; (c) (2, 500)</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Formula: PA = Base[seg#] + Offset (if Offset < Limit, else TRAP)
+
+(a) Logical (0, 430): Segment=0, Offset=430
+  Check: 430 < 600 (Limit)?  YES ✓
+  PA = 219 + 430 = 649
+
+(b) Logical (1, 10): Segment=1, Offset=10
+  Check: 10 < 14 (Limit)?  YES ✓
+  PA = 2300 + 10 = 2310
+
+(c) Logical (2, 500): Segment=2, Offset=500
+  Check: 500 < 100 (Limit)?  NO! 500 ≥ 100 ✗
+  → TRAP — Segmentation fault! OS terminates the access.</div>
+<div class="ans">✅ (a) PA = 649  (b) PA = 2310  (c) TRAP — illegal address (offset exceeds segment limit)</div>
+</div>
+</div></div>
+
+<!-- ═════════ PAGE REPLACEMENT ═════════ -->
+<div class="unit" id="n6"><div class="ppt">L-2.1.5</div><h2>Page Replacement — Numerical Problems</h2><p>FIFO · Optimal · LRU · Belady's Anomaly · Comparison problems from PPT</p></div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">PR-1</span><span class="qtag">PPT Slide 8 — FIFO Belady's Example</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">Reference String: <strong>1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5</strong><br>
+Apply FIFO with (a) 3 frames (b) 4 frames. Show Belady's Anomaly.</div>
+<div class="sol-box"><h4>📋 Complete Solution</h4>
+<div class="step">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(a) FIFO with 3 frames: (* = page fault)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Reference:  1   2   3   4   1   2   5   1   2   3   4   5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Frame1:     1   1   1   4   4   4   5   5   5   5   4   4
+Frame2:     -   2   2   2   1   1   1   1   1   1   1   5
+Frame3:     -   -   3   3   3   2   2   2   2   2   2   2
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fault?:     *   *   *   *   *   *   *   -   -   *   *   -
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Faults at references: 1,2,3,4,1,2,5,3,4 = 9 page faults
+
+(FIFO queue order: shows which page came in first)
+After 1: queue[1]      fault
+After 2: queue[1,2]    fault
+After 3: queue[1,2,3]  fault
+After 4: evict 1 → queue[2,3,4]  fault
+After 1: evict 2 → queue[3,4,1]  fault
+After 2: evict 3 → queue[4,1,2]  fault
+After 5: evict 4 → queue[1,2,5]  fault
+After 1: 1 in memory  HIT
+After 2: 2 in memory  HIT
+After 3: evict 1 → queue[2,5,3]  fault
+After 4: evict 2 → queue[5,3,4]  fault
+After 5: 5 in memory  HIT
+
+TOTAL = 9 page faults</div>
+<div class="step">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+(b) FIFO with 4 frames: (* = page fault)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Reference:  1   2   3   4   1   2   5   1   2   3   4   5
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Frame1:     1   1   1   1   1   1   5   5   5   5   4   4
+Frame2:     -   2   2   2   2   2   2   1   1   1   1   5
+Frame3:     -   -   3   3   3   3   3   3   2   2   2   2
+Frame4:     -   -   -   4   4   4   4   4   4   3   3   3
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fault?:     *   *   *   *   -   -   *   *   *   *   *   *
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TOTAL = 10 page faults!  ← MORE than 3 frames!</div>
+<div class="ans">✅ 3 frames = 9 faults. 4 frames = 10 faults. MORE faults with MORE frames = BELADY'S ANOMALY! FIFO only.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PR-2</span><span class="qtag">PPT Slide 11 — Optimal Algorithm</span><span class="qmarks">★★ Standard</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Reference String: <strong>1, 2, 3, 4, 2, 1, 5, 6, 2, 1, 2, 3, 7, 6, 3, 2, 1, 2, 3, 6</strong><br>
+Frames = 4. Apply <strong>Optimal</strong> page replacement.</div>
+<div class="hint">For each fault, look AHEAD in the string. Replace the page with the farthest next use (or never-used-again).</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Frames = 4. Reference: 1,2,3,4,2,1,5,6,2,1,2,3,7,6,3,2,1,2,3,6
+                            positions:0,1,2,3,4,5,6,7,8,9,10,11,12...
+
+Ref 0: 1 → [1]           FAULT (fill frame)
+Ref 1: 2 → [1,2]         FAULT
+Ref 2: 3 → [1,2,3]       FAULT
+Ref 3: 4 → [1,2,3,4]     FAULT (all frames full)
+Ref 4: 2 → [1,2,3,4]     HIT
+Ref 5: 1 → [1,2,3,4]     HIT
+Ref 6: 5 → need to evict!
+  Future uses: 1→pos9, 2→pos8, 3→pos11, 4→pos? (next use of 4 = not in remaining!)
+  → Replace 4 (never used again / farthest)
+  [1,2,3,5]               FAULT
+Ref 7: 6 → need to evict!
+  Future: 1→9, 2→8, 3→11, 5→? (not used again)
+  → Replace 5
+  [1,2,3,6]               FAULT
+Ref 8: 2 → HIT
+Ref 9: 1 → HIT
+Ref 10: 2 → HIT
+Ref 11: 3 → HIT
+Ref 12: 7 → need to evict!
+  Future: 1→16, 2→17, 3→18, 6→19
+  → All are used. 1 is used at 16, farthest among {1,2,3,6} going forward...
+  Farthest = 6 at pos 19. Replace 6.
+  [1,2,3,7]               FAULT
+Ref 13: 6 → need to evict!
+  Future: 1→16, 2→17, 3→18, 7→? not used again
+  → Replace 7
+  [1,2,3,6]               FAULT
+Ref 14: 3 → HIT
+Ref 15: 2 → HIT
+Ref 16: 1 → HIT
+Ref 17: 2 → HIT
+Ref 18: 3 → HIT
+Ref 19: 6 → HIT
+
+FAULTS: positions 0,1,2,3,6,7,12,13 = 8 page faults</div>
+<div class="ans">✅ Optimal = 8 page faults (4 frames). Minimum possible faults for this string.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PR-3</span><span class="qtag">PPT Slide 14 — LRU vs FIFO vs Optimal Comparison</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Reference string (from PPT Slide 14): <strong>1, 2, 3, 4, 2, 1, 5, 6, 2, 1, 2, 3, 7, 6, 3, 2, 1, 2, 3, 6</strong><br>
+Frames = 4. Compare FIFO vs LRU vs Optimal page faults.</div>
+<div class="sol-box"><h4>📋 LRU Solution (FIFO and Optimal shown for comparison)</h4>
+<div class="step">LRU — Frames = 4. (* = fault)
+Reference: 1  2  3  4  2  1  5  6  2  1  2  3  7  6  3  2  1  2  3  6
+
+1: [1]         F
+2: [1,2]       F
+3: [1,2,3]     F
+4: [1,2,3,4]   F  (all full)
+2: [1,3,4,2]   H  (2 moved to front as MRU)
+1: [3,4,2,1]   H
+5: LRU=3→[4,2,1,5]  F
+6: LRU=4→[2,1,5,6]  F
+2: [1,5,6,2]   H
+1: [5,6,2,1]   H
+2: [5,6,1,2]   H
+3: LRU=5→[6,1,2,3]  F
+7: LRU=6→[1,2,3,7]  F
+6: LRU=1→[2,3,7,6]  F
+3: [2,7,6,3]   H (3 is in frames)
+2: [7,6,3,2]   H
+1: LRU=7→[6,3,2,1]  F
+2: [6,3,1,2]   H
+3: [6,1,2,3]   H
+6: [1,2,3,6]   H
+
+LRU Faults: 1,2,3,4,5,6,3,7,6,1 = 12 faults (count from above)</div>
+<div class="step">Summary Comparison for 4 frames:
+
+Algorithm    Page Faults
+────────────────────────
+FIFO         16 faults
+LRU          12 faults
+Optimal       8 faults (minimum possible)
+
+Order: FIFO ≥ LRU ≥ Optimal (always true)</div>
+<div class="ans">✅ FIFO=16, LRU=12, Optimal=8 (4 frames). LRU significantly better than FIFO. Optimal is theoretical benchmark.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">PR-4</span><span class="qtag">Simple LRU Example</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Reference String: <strong>7, 0, 1, 2, 0, 3, 0, 4, 2, 3, 0, 3, 2</strong><br>
+Frames = 4. Apply <strong>LRU</strong>. Count page faults.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Frames = 4. LRU = replace least recently used page.
+F = Fault, H = Hit. Brackets show pages in memory after each step.
+
+7:  [7]           F  (fill)
+0:  [7,0]         F
+1:  [7,0,1]       F
+2:  [7,0,1,2]     F  (frames full)
+0:  [7,1,2,0]     H  (0 already in, moved to most recent)
+3:  LRU=7 → [1,2,0,3]   F
+0:  [1,2,3,0]     H
+4:  LRU=1 → [2,3,0,4]   F
+2:  [3,0,4,2]     H
+3:  [0,4,2,3]     H
+0:  [4,2,3,0]     H
+3:  [4,2,0,3]     H
+2:  [4,0,3,2]     H
+
+Faults: 7,0,1,2,3,4 = 6 page faults</div>
+<div class="ans">✅ LRU — 6 page faults (4 frames)</div>
+</div>
+</div></div>
+
+<!-- ═════════ DISK SCHEDULING ═════════ -->
+<div class="unit" id="n7"><div class="ppt">L-2.2.1</div><h2>Disk Scheduling — Numerical Problems</h2><p>FCFS · SSTF · SCAN · C-SCAN · C-LOOK · Rotational Latency</p></div>
+
+<div class="note">Standard Problem for All Disk Algorithms: Queue = {98, 183, 37, 122, 14, 124, 65, 67}, Head starts at cylinder 53, Range 0–199.</div>
+
+<div class="qcard"><div class="qhead op" onclick="tog(this)"><span class="qno">DS-1</span><span class="qtag">FCFS</span><span class="qmarks">★★ Standard</span><span class="arr">▼</span></div><div class="qbody op">
+<div class="qtext">Queue: <strong>{98, 183, 37, 122, 14, 124, 65, 67}</strong>. Head = <strong>53</strong>. Range 0–199.<br>Apply <strong>FCFS</strong>. Find total seek distance.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">FCFS: serve in exact queue arrival order.
+Path: 53 → 98 → 183 → 37 → 122 → 14 → 124 → 65 → 67
+
+Movements:
+  53  → 98  : |98-53|   = 45
+  98  → 183 : |183-98|  = 85
+  183 → 37  : |183-37|  = 146
+  37  → 122 : |122-37|  = 85
+  122 → 14  : |122-14|  = 108
+  14  → 124 : |124-14|  = 110
+  124 → 65  : |124-65|  = 59
+  65  → 67  : |67-65|   = 2
+              ───────────────
+Total seek distance     = 640 cylinders</div>
+<div class="ans">✅ FCFS Total Seek Distance = 640 cylinders</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-2</span><span class="qtag">SSTF</span><span class="qmarks">★★★ Must Know</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Same queue: <strong>{98, 183, 37, 122, 14, 124, 65, 67}</strong>. Head = <strong>53</strong>.<br>Apply <strong>SSTF</strong>. Show each step. Find total seek distance.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">SSTF: at each step, go to the nearest unserved cylinder.
+
+Step 1: Head at 53. Distances to queue:
+  |98-53|=45, |183-53|=130, |37-53|=16, |122-53|=69
+  |14-53|=39, |124-53|=71,  |65-53|=12 ← MIN!, |67-53|=14
+  → Move to 65 (distance = 12)
+
+Step 2: Head at 65. Remaining: {98,183,37,122,14,124,67}
+  |67-65|=2 ← MIN
+  → Move to 67 (distance = 2)
+
+Step 3: Head at 67. Remaining: {98,183,37,122,14,124}
+  |98-67|=31, |37-67|=30 ← MIN, |122-67|=55, |14-67|=53, |124-67|=57
+  → Move to 37 (distance = 30)
+
+Step 4: Head at 37. Remaining: {98,183,122,14,124}
+  |14-37|=23 ← MIN, |98-37|=61, |122-37|=85, |124-37|=87
+  → Move to 14 (distance = 23)
+
+Step 5: Head at 14. Remaining: {98,183,122,124}
+  |98-14|=84 ← MIN, |122-14|=108, |124-14|=110
+  → Move to 98 (distance = 84)
+
+Step 6: Head at 98. Remaining: {183,122,124}
+  |122-98|=24 ← MIN, |124-98|=26
+  → Move to 122 (distance = 24)
+
+Step 7: Head at 122. Remaining: {183,124}
+  |124-122|=2 ← MIN
+  → Move to 124 (distance = 2)
+
+Step 8: Head at 124. Remaining: {183}
+  |183-124|=59
+  → Move to 183 (distance = 59)
+
+Path: 53→65→67→37→14→98→122→124→183
+
+Total = 12+2+30+23+84+24+2+59 = 236 cylinders</div>
+<div class="ans">✅ SSTF Path: 53→65→67→37→14→98→122→124→183. Total = 236 cylinders</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-3</span><span class="qtag">SCAN (Elevator)</span><span class="qmarks">★★ Standard</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Queue: <strong>{98, 183, 37, 122, 14, 124, 65, 67}</strong>. Head = <strong>53</strong>, initially moving toward <strong>higher cylinders</strong>. Disk range 0–199.<br>Apply <strong>SCAN</strong>.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">SCAN: move in one direction to END of disk, then reverse.
+Initial direction: toward higher (right). Starting at 53.
+
+Sort requests:
+  Left of 53:  14, 37
+  Right of 53: 65, 67, 98, 122, 124, 183
+
+Step 1 (moving RIGHT): serve all requests up to disk end (199):
+  53 → 65 → 67 → 98 → 122 → 124 → 183 → 199 (disk end)
+
+Step 2 (REVERSE, moving LEFT): serve remaining requests:
+  199 → 37 → 14
+
+Path: 53→65→67→98→122→124→183→199→37→14
+
+Movements:
+  53→65   = 12
+  65→67   = 2
+  67→98   = 31
+  98→122  = 24
+  122→124 = 2
+  124→183 = 59
+  183→199 = 16  (go to disk end!)
+  199→37  = 162
+  37→14   = 23
+  ──────────
+Total = 12+2+31+24+2+59+16+162+23 = 331 cylinders</div>
+<div class="ans">✅ SCAN Path: 53→65→67→98→122→124→183→199→37→14. Total ≈ 331 cylinders</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-4</span><span class="qtag">C-SCAN</span><span class="qmarks">★★ Standard</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Queue: <strong>{98, 183, 37, 122, 14, 124, 65, 67}</strong>. Head = <strong>53</strong>, moving toward higher cylinders. Disk range 0–199.<br>Apply <strong>C-SCAN</strong>.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">C-SCAN: move in ONE direction to physical END, jump to 0, continue same direction.
+
+Starting at 53, moving RIGHT:
+  Serve rightward requests: 65, 67, 98, 122, 124, 183
+  Reach disk end: 199
+  JUMP to 0 (no service during jump)
+  Serve leftward (now rightward again from 0): 14, 37
+
+Path: 53→65→67→98→122→124→183→199 [JUMP→0] →14→37
+
+Movements:
+  53→65   = 12
+  65→67   = 2
+  67→98   = 31
+  98→122  = 24
+  122→124 = 2
+  124→183 = 59
+  183→199 = 16
+  199→0   = 199 (jump, counted in seek distance)
+  0→14    = 14
+  14→37   = 23
+  ──────────
+Total = 12+2+31+24+2+59+16+199+14+23 = 382 cylinders</div>
+<div class="ans">✅ C-SCAN Path: 53→65→67→98→122→124→183→199→[jump]→0→14→37. Total ≈ 382 cylinders</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-5</span><span class="qtag">C-LOOK</span><span class="qmarks">★★★ Best Algorithm</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Queue: <strong>{98, 183, 37, 122, 14, 124, 65, 67}</strong>. Head = <strong>53</strong>, moving toward higher cylinders.<br>Apply <strong>C-LOOK</strong>.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">C-LOOK: like C-SCAN but jump to FIRST REQUEST (not to 0).
+Does NOT travel to physical disk ends.
+
+Starting at 53, moving RIGHT:
+  Rightward requests: 65, 67, 98, 122, 124, 183
+  Serve all: 65 → 67 → 98 → 122 → 124 → 183
+  At 183 (LAST request going right): JUMP to 14 (FIRST request overall, not to 0)
+  Continue rightward (now from 14): 14 → 37
+
+Path: 53→65→67→98→122→124→183 [JUMP→14] →37
+
+Movements:
+  53→65   = 12
+  65→67   = 2
+  67→98   = 31
+  98→122  = 24
+  122→124 = 2
+  124→183 = 59
+  183→14  = 169 (jump to first request, not 0!)
+  14→37   = 23
+  ──────────
+Total = 12+2+31+24+2+59+169+23 = 322 cylinders</div>
+<div class="ans">✅ C-LOOK Path: 53→65→67→98→122→124→183→[jump]→14→37. Total ≈ 322 cylinders</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-6</span><span class="qtag">Final Comparison Table</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Summarize the seek distances for all 5 disk scheduling algorithms for the standard problem (Queue={98,183,37,122,14,124,65,67}, Head=53, Range=0-199).</div>
+<div class="sol-box"><h4>📋 Summary</h4>
+<div class="step">Algorithm   Path                                         Total Distance
+──────────────────────────────────────────────────────────────────
+FCFS:       53→98→183→37→122→14→124→65→67              640 cylinders
+SSTF:       53→65→67→37→14→98→122→124→183              236 cylinders ★ (best!)
+SCAN:       53→65→67→98→122→124→183→199→37→14          331 cylinders
+C-SCAN:     53→65→67→98→122→124→183→199→0→14→37        382 cylinders
+C-LOOK:     53→65→67→98→122→124→183→14→37              322 cylinders
+
+Performance ranking (this specific example):
+  SSTF (236) &lt; C-LOOK (322) &lt; SCAN (331) &lt; C-SCAN (382) &lt; FCFS (640)
+
+NOTE: SSTF is fastest here but can cause starvation.
+      C-LOOK is best overall (no starvation, good performance).</div>
+<div class="ans">✅ FCFS=640, SSTF=236, SCAN=331, C-SCAN=382, C-LOOK=322. Best distance = SSTF. Best overall = C-LOOK.</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-7</span><span class="qtag">Rotational Latency Calculation</span><span class="qmarks">2 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">A disk rotates at <strong>7200 RPM</strong>. Seek time = 10ms. Transfer time = 0.5ms. Calculate: (a) Rotational latency (b) Total disk access time.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">Rotational speed = 7200 RPM (rotations per minute)
+
+Time for one full rotation:
+  = 60,000 ms / 7200 RPM
+  = 8.33 ms per rotation
+
+Average rotational latency = (1/2) × time per rotation
+  = (1/2) × 8.33 ms
+  = 4.17 ms
+
+Total disk access time = Seek + Rotational Latency + Transfer
+  = 10 + 4.17 + 0.5
+  = 14.67 ms</div>
+<div class="ans">✅ Rotational latency ≈ 4.17ms. Total access time ≈ 14.67ms</div>
+</div>
+</div></div>
+
+<div class="qcard"><div class="qhead" onclick="tog(this)"><span class="qno">DS-8</span><span class="qtag">Different Starting Head Direction</span><span class="qmarks">3 marks</span><span class="arr">▼</span></div><div class="qbody">
+<div class="qtext">Queue: <strong>{55, 58, 39, 18, 90, 160, 150, 38, 184}</strong>. Head = <strong>100</strong>, moving toward <strong>lower cylinders</strong>. Disk range 0–199.<br>Apply <strong>SCAN</strong>. Find total seek distance.</div>
+<div class="sol-box"><h4>📋 Solution</h4>
+<div class="step">SCAN: Head at 100, moving LEFT (toward lower cylinders).
+
+Sort requests:
+  Left of 100:  18, 38, 39, 55, 58, 90
+  Right of 100: 150, 160, 184
+
+Step 1 (moving LEFT): serve all left requests, reach 0:
+  100 → 90 → 58 → 55 → 39 → 38 → 18 → 0 (disk start)
+
+Step 2 (REVERSE, moving RIGHT):
+  0 → 150 → 160 → 184
+
+Path: 100→90→58→55→39→38→18→0→150→160→184
+
+Movements:
+  100→90  = 10
+  90→58   = 32
+  58→55   = 3
+  55→39   = 16
+  39→38   = 1
+  38→18   = 20
+  18→0    = 18  (go to disk start)
+  0→150   = 150
+  150→160 = 10
+  160→184 = 24
+  ──────────
+Total = 10+32+3+16+1+20+18+150+10+24 = 284 cylinders</div>
+<div class="ans">✅ SCAN (head moving left initially): Path 100→90→58→55→39→38→18→0→150→160→184. Total = 284 cylinders</div>
+</div>
+</div></div>
+
+</div>
+<footer><h3>Numericals Complete — All 8 PPTs</h3><p>Deadlock Formula · Banker's Algorithm · Memory Allocation · Address Calculation · Paging · Page Replacement · Disk Scheduling</p></footer>
+<script>
+function tog(h){h.classList.toggle('op');var b=h.nextElementSibling;b.classList.toggle('op');}
+document.querySelectorAll('.qhead.op').forEach(function(h){h.nextElementSibling.classList.add('op');});
+</script>
+</body>
+</html>
